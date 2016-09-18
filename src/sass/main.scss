@@ -1,0 +1,363 @@
+$border-radius: 3px;
+
+$color-black: #000;
+$color-border: #E3E3E9;
+$color-code: #C9144C;
+$color-red: #FF6059;
+$color-green: #28CA42;
+$color-yellow: #FFBF2F;
+$color-blue: #3498DB;
+$color-white: #fff;
+$color-grey-light: #F7F7F9;
+
+$chrome-bg: #E2E2E2;
+
+$console-bg: mix($color-white, #272822, 10%);
+$console-success: #84CC3A;
+$console-error: #F72D73;
+
+/**
+* Visibility
+**/
+
+.visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/**
+* Base
+**/
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+}
+
+body {
+    background-color: #f00;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    background-color: #f7f7f7;
+    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 2rem;
+}
+
+a {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+img {
+    display: block;
+    width: 300px;
+}
+
+iframe {
+    border: 0;
+    height: 200%;
+    margin: 0;
+    transform: scale(.5);
+    transform-origin: left top;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: .5rem;
+}
+
+.code {
+    background-color: $color-grey-light;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    color: $color-code;
+    display: inline-block;
+    font-size: .75rem;
+    margin: .1rem 0;
+    padding: 0 .25rem;
+}
+
+/**
+* Form
+**/
+
+.form {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    width: 100%;
+}
+
+.form__heading {
+    font-size: 1.25rem;
+    margin-bottom: .75rem;
+}
+
+.form__control {
+    background-color: $color-white;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    margin: 0 0 1rem;
+    padding: 1.25rem;
+    width: 100%;
+}
+
+.form__group {
+    align-items: flex-start;
+    display: flex;
+}
+
+.form__input {
+    margin-right: 1rem;
+}
+
+.form__help {
+    border-radius: $border-radius;
+    display: block;
+    font-size: .75rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    max-width: 85ch;
+    width: auto;
+}
+
+.form__field {
+    -webkit-appearance: none;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    display: block;
+    font-size: .75rem;
+    min-width: 15rem;
+    padding: .5rem;
+    width: 100%;
+}
+
+.form__checkbox-wrap {
+    align-items: center;
+    display: flex;
+    margin-bottom: 1rem;
+    max-width: 15rem;
+    position: relative;
+}
+
+.form__label--small {
+    cursor: pointer;
+    margin: 0;
+    font-size: .75rem;
+}
+
+.button {
+    border: 1px solid $color-black;
+    border-radius: $border-radius;
+    display: inline-block;
+    color: $color-black;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: .75rem;
+    margin: 0;
+    padding: .5rem .75rem;
+    text-decoration: none;
+}
+
+.button--disabled {
+    display: none;
+}
+
+.form__checkbox {
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    cursor: pointer;
+    margin-right: .75rem;
+    padding: .75rem;
+    position: relative;
+    z-index: 2;
+
+    + .custom-check {
+        opacity: 0;
+    }
+
+    &:checked {
+        + .custom-check {
+            opacity: 1;
+            transform: scale(.9);
+        }
+    }
+}
+
+.custom-check {
+    height: 1rem;
+    fill: $color-black;
+    left: .35rem;
+    position: absolute;
+    top: .325rem;
+    transform: scale(.6);
+    transition: transform 125ms cubic-bezier(0.4, 1.28, 0.57, 1.5);
+    width: 1rem;
+}
+
+/**
+* Validation
+**/
+
+.nod-success {
+    .form__field {
+        border: 1px solid  mix($color-white, $color-green, 50%);
+    }
+}
+
+.form__error {
+    background-color: mix($color-white, $color-red, 85%);
+    border-radius: $border-radius;
+    display: none;
+    font-size: .75rem;
+    margin-top: .5rem;
+    padding: .75rem;
+}
+
+.form__error--active {
+    display: block;
+}
+
+.content {
+    margin: 0 auto;
+    padding: 2rem;
+    width: 800px;
+}
+
+.iframe {
+    background-color: #fff;
+    box-shadow: 0 1px 5px 0 rgba(mix(#000, #fff, 80%), .1);
+    display: none;
+    margin: 1rem auto 0;
+    width: 100%;
+}
+
+.iframe__chrome {
+    background-color: mix(#000, #fff, 10%);
+    border: 1px solid $color-border;
+    border-radius: $border-radius $border-radius 0 0;
+    display: flex;
+    height: 25px;
+    padding: 0 .75rem;
+}
+
+.iframe__ui {
+    background-color: $color-red;
+    border: 1px solid mix(#000, $color-red, 15%);
+    border-radius: 50%;
+    display: inline-block;
+    margin: auto 5px auto 0;
+    height: 8px;
+    width: 8px;
+
+    &:nth-of-type(2) {
+        background-color: $color-green;
+        border-color: mix(#000, $color-green, 15%);
+    }
+
+    &:nth-of-type(3) {
+        background-color: $color-yellow;
+        border-color: mix(#000, $color-yellow, 10%);
+    }
+}
+
+.iframe__wrapper {
+    border: 1px solid mix(#000, #fff, 15%);
+    border-top: 0;
+    border-radius: 0 0 $border-radius $border-radius;
+    height: 400px;
+    position: relative;
+}
+
+.iframe--loading .loading {
+    display: block;
+}
+
+.loading {
+    display: none;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+}
+
+.iframe--error .error {
+    display: block;
+}
+
+.error {
+    color: #f00;
+    display: none;
+    font-size: 4rem;
+    margin: auto;
+    text-transform: uppercase;
+}
+
+.console {
+    background-color: $console-bg;
+    border-radius: $border-radius;
+    margin-top: .25rem;
+    height: 10rem;
+    overflow: scroll;
+    padding: 1.25rem;
+    text-align: left;
+}
+
+.console__text {
+    color: $color-white;
+    font-family: monospace;
+
+    &:not(:last-of-type) {
+        margin-bottom: .25rem;
+    }
+}
+
+.console__text--success {
+    color: $console-success;
+}
+
+.console__text--error {
+    color: $console-error;
+}
+
+/**
+ * Flickity page dots
+ **/
+
+.flickity-page-dots {
+    text-align: center;
+
+    .dot {
+        border: 1px solid mix($color-black, $color-border, 10%);
+        border-radius: 50%;
+        display: inline-block;
+        height: .6rem;
+        margin: 0 .5rem;
+        vertical-align: middle;
+        width: .6rem;
+    }
+
+    .is-selected {
+        background-color: mix($color-black, $color-border, 10%);
+    }
+}
