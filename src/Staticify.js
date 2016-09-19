@@ -826,7 +826,7 @@ module.exports = class Staticify {
             destination = `${outputDir}/${destination}`;
         }
 
-        fs.writeFile(destination, body, 'binary', (err) => {
+        fs.writeFile(__dirname + '/' + destination, body, 'binary', (err) => {
             if (err && err !== null && this.options.verbose) {
                 console.log(`✘ Error saving file: ${destination} | ${err}`.red);
             }
@@ -843,7 +843,10 @@ module.exports = class Staticify {
 
         const { outputDir } = this.options;
         const source = `${__dirname}/${outputDir}`;
-        const destination = `../site/public/output_bundle.zip`;
+        const destination = `${__dirname}/../site/public/output_bundle.zip`;
+
+        console.log(source);
+        console.log(destination);
 
         // TODO: call this from the front end
         zipFolder(source, destination, (err) => {
@@ -853,7 +856,8 @@ module.exports = class Staticify {
             else {
                 let data = {
                     destination: 'output_bundle.zip',
-                    size: this.getFileSize(`${__dirname}/${destination}`),
+                    // size: this
+                    // .getFileSize(`${__dirname}/${destination}`),
                     log: this.log
                 };
 
