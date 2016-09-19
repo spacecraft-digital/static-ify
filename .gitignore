@@ -1,6 +1,10 @@
 # dependencies
 node_modules
 
+# app
+site/public/output
+site/public/output_bundle.zip
+
 # misc
 .DS_Store
 npm-debug.log
