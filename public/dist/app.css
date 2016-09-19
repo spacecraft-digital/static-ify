@@ -68,8 +68,8 @@ label {
 * Content
 **/
 .content {
-  box-shadow: inset 0 0 0 1px #f00;
-  margin-left: 20rem; }
+  margin-left: 20rem;
+  padding: 2rem; }
 
 /**
 * Form
@@ -131,10 +131,11 @@ label {
   font-size: .75rem; }
 
 .button {
-  border: 1px solid #000;
+  background-color: #3498DB;
+  border: 0;
   border-radius: 3px;
   display: inline-block;
-  color: #000;
+  color: #fff;
   cursor: pointer;
   font-weight: bold;
   font-size: .75rem;
@@ -142,8 +143,15 @@ label {
   padding: .5rem .75rem;
   text-decoration: none; }
 
+.button__text {
+  color: #fff;
+  font-weight: bold;
+  margin: 0;
+  padding: 0; }
+
 .button--disabled {
-  display: none; }
+  opacity: .5;
+  cursor: default; }
 
 .form__checkbox {
   border: 1px solid #E3E3E9;
@@ -172,9 +180,6 @@ label {
 /**
 * Validation
 **/
-.nod-success .form__field {
-  border: 1px solid #94e5a1; }
-
 .form__error {
   background-color: #ffe7e6;
   border-radius: 3px;
@@ -186,12 +191,31 @@ label {
 .form__error--active {
   display: block; }
 
+/**
+* iFrame
+**/
 .iframe {
   background-color: #fff;
-  box-shadow: 0 1px 5px 0 rgba(51, 51, 51, 0.1);
-  display: none;
-  margin: 1rem auto 0;
+  margin: 0 auto;
+  max-width: 550px;
+  position: relative;
   width: 100%; }
+
+.iframe--idle {
+  background: transparent; }
+  .iframe--idle .iframe__wrapper,
+  .iframe--idle .iframe__chrome {
+    background-color: transparent;
+    border-color: #d9d9d9;
+    border-width: 2px; }
+  .iframe--idle .iframe__chrome {
+    border-bottom: 0;
+    border-style: dashed; }
+  .iframe--idle .iframe__wrapper {
+    border-style: dashed;
+    border-top: 0; }
+  .iframe--idle .iframe__ui {
+    opacity: 0; }
 
 .iframe__chrome {
   background-color: #e6e6e6;
@@ -221,6 +245,7 @@ label {
   border-top: 0;
   border-radius: 0 0 3px 3px;
   height: 400px;
+  margin-bottom: 1rem;
   position: relative; }
 
 .iframe--loading .loading {
@@ -244,39 +269,23 @@ label {
   margin: auto;
   text-transform: uppercase; }
 
-.console {
-  background-color: #3d3e38;
-  border-radius: 3px;
-  margin-top: .25rem;
-  height: 10rem;
-  overflow: scroll;
-  padding: 1.25rem;
-  text-align: left; }
-
-.console__text {
-  color: #fff;
-  font-family: monospace; }
-  .console__text:not(:last-of-type) {
-    margin-bottom: .25rem; }
-
-.console__text--success {
-  color: #84CC3A; }
-
-.console__text--error {
-  color: #F72D73; }
-
 /**
- * Flickity page dots
- **/
-.flickity-page-dots {
+* Status
+**/
+.status {
+  color: #a6a6a6;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%); }
+
+.status__text {
+  margin-bottom: 1.5rem;
   text-align: center; }
-  .flickity-page-dots .dot {
-    border: 1px solid #ccccd2;
-    border-radius: 50%;
-    display: inline-block;
-    height: .6rem;
-    margin: 0 .5rem;
-    vertical-align: middle;
-    width: .6rem; }
-  .flickity-page-dots .is-selected {
-    background-color: #ccccd2; }
+
+.status__progress {
+  font-size: .5rem;
+  margin-bottom: .25rem; }
+
+.status__progress--complete .status__complete {
+  color: #28CA42; }

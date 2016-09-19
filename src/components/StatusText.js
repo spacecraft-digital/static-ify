@@ -4,7 +4,7 @@ export default class StatusText extends Component {
     render () {
         const { status } = this.props;
         return (
-            <p className="status-text">{status || 'waiting for request'}</p>
+            <p className="status__text status__text--status">{status || '...'}</p>
         );
     }
 }

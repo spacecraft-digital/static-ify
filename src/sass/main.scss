@@ -99,8 +99,8 @@ label {
 **/
 
 .content {
-    box-shadow: inset 0 0 0 1px #f00;
     margin-left: 20rem;
+    padding: 2rem;
 }
 
 /**
@@ -175,10 +175,11 @@ label {
 }
 
 .button {
-    border: 1px solid $color-black;
+    background-color: $color-blue;
+    border: 0;
     border-radius: $border-radius;
     display: inline-block;
-    color: $color-black;
+    color: $color-white;
     cursor: pointer;
     font-weight: bold;
     font-size: .75rem;
@@ -187,8 +188,16 @@ label {
     text-decoration: none;
 }
 
+.button__text {
+    color: $color-white;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
 .button--disabled {
-    display: none;
+    opacity: .5;
+    cursor: default;
 }
 
 .form__checkbox {
@@ -227,12 +236,6 @@ label {
 * Validation
 **/
 
-.nod-success {
-    .form__field {
-        border: 1px solid  mix($color-white, $color-green, 50%);
-    }
-}
-
 .form__error {
     background-color: mix($color-white, $color-red, 85%);
     border-radius: $border-radius;
@@ -246,12 +249,42 @@ label {
     display: block;
 }
 
+/**
+* iFrame
+**/
+
 .iframe {
     background-color: #fff;
-    box-shadow: 0 1px 5px 0 rgba(mix(#000, #fff, 80%), .1);
-    display: none;
-    margin: 1rem auto 0;
+    //box-shadow: 0 1px 5px 0 rgba(mix(#000, #fff, 80%), .1);
+    margin: 0 auto;
+    max-width: 550px;
+    position: relative;
     width: 100%;
+}
+
+.iframe--idle {
+    background: transparent;
+
+    .iframe__wrapper,
+    .iframe__chrome {
+        background-color: transparent;
+        border-color: mix(#000, #fff, 15%);
+        border-width: 2px;
+    }
+
+    .iframe__chrome {
+        border-bottom: 0;
+        border-style: dashed;
+    }
+
+    .iframe__wrapper {
+        border-style: dashed;
+        border-top: 0;
+    }
+
+    .iframe__ui {
+        opacity: 0;
+    }
 }
 
 .iframe__chrome {
@@ -288,6 +321,7 @@ label {
     border-top: 0;
     border-radius: 0 0 $border-radius $border-radius;
     height: 400px;
+    margin-bottom: 1rem;
     position: relative;
 }
 
@@ -316,51 +350,31 @@ label {
     text-transform: uppercase;
 }
 
-.console {
-    background-color: $console-bg;
-    border-radius: $border-radius;
-    margin-top: .25rem;
-    height: 10rem;
-    overflow: scroll;
-    padding: 1.25rem;
-    text-align: left;
-}
-
-.console__text {
-    color: $color-white;
-    font-family: monospace;
-
-    &:not(:last-of-type) {
-        margin-bottom: .25rem;
-    }
-}
-
-.console__text--success {
-    color: $console-success;
-}
-
-.console__text--error {
-    color: $console-error;
-}
-
 /**
- * Flickity page dots
- **/
+* Status
+**/
 
-.flickity-page-dots {
+.status {
+    color: mix(#000, #fff, 35%);
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.status__text {
+    margin-bottom: 1.5rem;
     text-align: center;
+}
 
-    .dot {
-        border: 1px solid mix($color-black, $color-border, 10%);
-        border-radius: 50%;
-        display: inline-block;
-        height: .6rem;
-        margin: 0 .5rem;
-        vertical-align: middle;
-        width: .6rem;
-    }
+.status__progress {
+    font-size: .5rem;
+    margin-bottom: .25rem;
+}
 
-    .is-selected {
-        background-color: mix($color-black, $color-border, 10%);
+.status__progress--complete {
+    .status__complete {
+        color: $color-green;
     }
 }
+

@@ -671,6 +671,7 @@ module.exports = class Staticify {
         .then(() => {
             this.assetCount[mode].count++;
             this.socket.emit(`${mode} complete`, this.assetCount[mode]);
+            this.socket.emit('status', `requested ${asset.target}`);
 
             if (this.assetCount[mode].count === this.assetCount[mode].length) {
                 console.log(`${mode}:complete`);
@@ -751,8 +752,6 @@ module.exports = class Staticify {
         if (this.options.verbose) {
             console.log(`${msg}`.green);
         }
-
-        this.socket.emit('status', msg);
     }
 
     /**
@@ -844,7 +843,7 @@ module.exports = class Staticify {
 
         const { outputDir } = this.options;
         const source = `${__dirname}/${outputDir}`;
-        const destination = `../public/output/output.zip`;
+        const destination = `../public/output_bundle.zip`;
 
         // TODO: call this from the front end
         zipFolder(source, destination, (err) => {
@@ -853,7 +852,7 @@ module.exports = class Staticify {
             }
             else {
                 let data = {
-                    destination: 'output.zip',
+                    destination: 'output_bundle.zip',
                     size: this.getFileSize(`${__dirname}/${destination}`),
                     log: this.log
                 };
@@ -862,7 +861,7 @@ module.exports = class Staticify {
             }
         });
 
-        this.socket.emit('zipped', 'output/output.zip');
+        this.socket.emit('zipped',  { zip: 'output_bundle.zip', dir: 'output/foo.html' });
         this.eventEmitter.emit('zip:success', this.html);
     }
 };

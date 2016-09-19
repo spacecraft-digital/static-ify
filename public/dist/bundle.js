@@ -21482,17 +21482,13 @@
 
 	var _StaticForm2 = _interopRequireDefault(_StaticForm);
 
-	var _StatusText = __webpack_require__(315);
-
-	var _StatusText2 = _interopRequireDefault(_StatusText);
-
-	var _AssetProgress = __webpack_require__(316);
-
-	var _AssetProgress2 = _interopRequireDefault(_AssetProgress);
-
 	var _DownloadButton = __webpack_require__(318);
 
 	var _DownloadButton2 = _interopRequireDefault(_DownloadButton);
+
+	var _StaticDash = __webpack_require__(320);
+
+	var _StaticDash2 = _interopRequireDefault(_StaticDash);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21509,7 +21505,10 @@
 	        _this.socket = (0, _socket2.default)(SERVER);
 	        _this.state = {
 	            status: null,
-	            bundle: null,
+	            bundle: {
+	                zip: null,
+	                dir: null
+	            },
 	            css: {
 	                length: null,
 	                count: 0
@@ -21541,8 +21540,13 @@
 	        });
 
 	        _this.socket.on('zipped', function (file) {
+	            console.log(file);
+
 	            _this.setState({
-	                bundle: file
+	                bundle: {
+	                    zip: file.zip,
+	                    dir: file.dir
+	                }
 	            });
 	        });
 	        return _this;
@@ -21596,11 +21600,9 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'content' },
-	                    _react2.default.createElement(_StatusText2.default, { status: status }),
-	                    _react2.default.createElement(_AssetProgress2.default, { type: 'css', length: css.length, count: css.count }),
-	                    _react2.default.createElement(_AssetProgress2.default, { type: 'asset', length: asset.length, count: asset.count })
-	                ),
-	                _react2.default.createElement(_DownloadButton2.default, { bundle: bundle })
+	                    _react2.default.createElement(_StaticDash2.default, { status: status, css: css, asset: asset, bundle: bundle }),
+	                    _react2.default.createElement(_DownloadButton2.default, { bundle: bundle.zip })
+	                )
 	            );
 	        }
 	    }]);
@@ -31148,8 +31150,8 @@
 
 	            return _react2.default.createElement(
 	                'p',
-	                { className: 'status-text' },
-	                status || 'waiting for request'
+	                { className: 'status__text status__text--status' },
+	                status || '...'
 	            );
 	        }
 	    }]);
@@ -31210,16 +31212,27 @@
 	            var type = _props.type;
 	            var count = _props.count;
 
+	            var isComplete = count === length ? 'status__progress--complete' : '';
 
 	            return _react2.default.createElement(
-	                'p',
-	                null,
-	                count,
-	                ' / ',
-	                length || 0,
-	                ' ',
-	                type,
-	                ' requested'
+	                'div',
+	                { className: isComplete },
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'status__complete' },
+	                        '✔'
+	                    ),
+	                    ' ',
+	                    count,
+	                    ' / ',
+	                    length || 0,
+	                    ' ',
+	                    type,
+	                    ' requested'
+	                )
 	            );
 	        }
 	    }]);
@@ -31278,15 +31291,28 @@
 	        value: function render() {
 	            var bundle = this.props.bundle;
 
+	            var bundleText = 'Download Bundle';
+	            var disabled = bundle ? '' : ' button--disabled';
+	            var link = void 0;
+
+	            if (bundle) {
+	                link = _react2.default.createElement(
+	                    'a',
+	                    { className: 'button__text', href: bundle },
+	                    bundleText
+	                );
+	            } else {
+	                link = _react2.default.createElement(
+	                    'span',
+	                    { className: 'button__text' },
+	                    bundleText
+	                );
+	            }
 
 	            return _react2.default.createElement(
 	                'button',
-	                null,
-	                _react2.default.createElement(
-	                    'a',
-	                    { href: bundle || '#' },
-	                    'BUNDLE'
-	                )
+	                { className: 'button' + disabled },
+	                link
 	            );
 	        }
 	    }]);
@@ -31294,6 +31320,188 @@
 	}(_react.Component);
 
 	exports.default = DownloadButton;
+
+/***/ },
+/* 319 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(174);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(200);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(201);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(205);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(252);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StaticFrame = function (_Component) {
+	    (0, _inherits3.default)(StaticFrame, _Component);
+
+	    function StaticFrame() {
+	        (0, _classCallCheck3.default)(this, StaticFrame);
+	        return (0, _possibleConstructorReturn3.default)(this, (StaticFrame.__proto__ || (0, _getPrototypeOf2.default)(StaticFrame)).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(StaticFrame, [{
+	        key: 'render',
+	        value: function render() {
+	            var _props = this.props;
+	            var bundle = _props.bundle;
+	            var iframeWidth = _props.iframeWidth;
+
+
+	            return _react2.default.createElement('iframe', { src: bundle, width: iframeWidth });
+	        }
+	    }]);
+	    return StaticFrame;
+	}(_react.Component);
+
+	exports.default = StaticFrame;
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(174);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(200);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(201);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(205);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(252);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _StatusText = __webpack_require__(315);
+
+	var _StatusText2 = _interopRequireDefault(_StatusText);
+
+	var _AssetProgress = __webpack_require__(316);
+
+	var _AssetProgress2 = _interopRequireDefault(_AssetProgress);
+
+	var _StaticFrame = __webpack_require__(319);
+
+	var _StaticFrame2 = _interopRequireDefault(_StaticFrame);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StaticDash = function (_Component) {
+	    (0, _inherits3.default)(StaticDash, _Component);
+
+	    function StaticDash(props) {
+	        (0, _classCallCheck3.default)(this, StaticDash);
+
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (StaticDash.__proto__ || (0, _getPrototypeOf2.default)(StaticDash)).call(this, props));
+
+	        _this.state = {
+	            iframeWidth: '100%'
+	        };
+
+	        _this.resizeIframe = _this.resizeIframe.bind(_this);
+	        return _this;
+	    }
+
+	    (0, _createClass3.default)(StaticDash, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.resizeIframe();
+	            window.addEventListener('resize', this.resizeIframe);
+	        }
+	    }, {
+	        key: 'resizeIframe',
+	        value: function resizeIframe() {
+	            var iframe = this.refs.iframe;
+	            // -2 to negate wrapper border
+
+	            var iframeWidth = iframe.getBoundingClientRect().width * 2 - 2;
+
+	            this.setState({ iframeWidth: iframeWidth + 'px' });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _props = this.props;
+	            var status = _props.status;
+	            var css = _props.css;
+	            var asset = _props.asset;
+	            var bundle = _props.bundle;
+	            var iframeWidth = this.state.iframeWidth;
+
+	            var requestStatus = '';
+
+	            return _react2.default.createElement(
+	                'div',
+	                { ref: 'iframe', className: 'iframe' + requestStatus },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'status' },
+	                    _react2.default.createElement(_StatusText2.default, { status: status }),
+	                    _react2.default.createElement(_AssetProgress2.default, { type: 'css', length: css.length, count: css.count }),
+	                    _react2.default.createElement(_AssetProgress2.default, { type: 'asset', length: asset.length, count: asset.count })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'iframe__chrome' },
+	                    _react2.default.createElement('div', { className: 'iframe__ui' }),
+	                    _react2.default.createElement('div', { className: 'iframe__ui' }),
+	                    _react2.default.createElement('div', { className: 'iframe__ui' })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'iframe__wrapper' },
+	                    _react2.default.createElement(_StaticFrame2.default, { bundle: bundle.dir, iframeWidth: iframeWidth })
+	                )
+	            );
+	        }
+	    }]);
+	    return StaticDash;
+	}(_react.Component);
+
+	exports.default = StaticDash;
 
 /***/ }
 /******/ ]);

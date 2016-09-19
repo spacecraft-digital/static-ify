@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import StaticForm from './components/StaticForm';
-import StatusText from './components/StatusText';
-import AssetProgress from './components/AssetProgress';
 import DownloadButton from './components/DownloadButton';
+import StaticDash from './components/StaticDash';
 
 const SERVER = 'http://localhost:8000';
 
@@ -13,7 +12,10 @@ export default class App extends Component {
         this.socket = io(SERVER);
         this.state = {
             status: null,
-            bundle: null,
+            bundle: {
+                zip: null,
+                dir: null
+            },
             css: {
                 length: null,
                 count: 0
@@ -45,8 +47,13 @@ export default class App extends Component {
         });
 
         this.socket.on('zipped', (file) => {
+            console.log(file);
+
             this.setState({
-                bundle: file
+                bundle: {
+                    zip: file.zip,
+                    dir: file.dir
+                }
             });
         });
     }
@@ -81,14 +88,12 @@ export default class App extends Component {
         return (
             <div className="app">
                 <div className="sidebar">
-                    <StaticForm server={SERVER} />
+                    <StaticForm server={ SERVER } />
                 </div>
                 <div className="content">
-                    <StatusText status={status} />
-                    <AssetProgress type="css" length={css.length} count={css.count} />
-                    <AssetProgress type="asset" length={asset.length} count={asset.count} />
+                    <StaticDash status={ status } css={ css } asset={ asset } bundle={ bundle } />
+                    <DownloadButton bundle={ bundle.zip } />
                 </div>
-                <DownloadButton bundle={bundle} />
             </div>
         );
     }

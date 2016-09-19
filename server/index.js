@@ -80,9 +80,14 @@ else if (process.argv[2] === 'clean') {
 
 function removeDirs (exit = null) {
     const outputLocation = `${__dirname}/../public/output/`;
+    const outputZip = `${__dirname}/../public/output_bundle.zip`;
 
     rimraf(outputLocation, {}, () => {
         console.log('removed output directory');
+    });
+
+    rimraf(outputZip, {}, () => {
+        console.log('removed output zip');
     });
 }
 
