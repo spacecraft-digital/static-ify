@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import io from 'socket.io-client';
 import StaticInput from './StaticInput';
 import GenerateButton from './GenerateButton';
 
@@ -7,6 +7,7 @@ export default class StaticForm extends Component {
     constructor (props) {
         super(props);
 
+        this.socket = io(this.props.server);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -22,7 +23,7 @@ export default class StaticForm extends Component {
             removeMainContent: formData.get('removeMainContent')
         };
 
-        console.log(postData);
+        this.socket.emit('request bundle', postData);
     }
 
     render () {

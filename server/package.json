@@ -4,7 +4,8 @@
   "scripts": {
     "start": "nodemon index.js --ignore public/ --ignore output/",
     "test": "mocha --compilers js:babel-core/register -w",
-    "debug": "node index.js debug"
+    "debug": "node index.js debug",
+    "clean": "node index.js clean"
   },
   "dependencies": {
     "body-parser": "^1.15.2",

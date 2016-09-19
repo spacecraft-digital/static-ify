@@ -26,7 +26,7 @@ const requestOptions = {
 // 2. fix relative paths with smarterf solution
 
 const defaults = {
-    outputDir: 'output',
+    outputDir: '../public/output',
     outputFile: 'output',
     hasGrunticon: true,
     assetPath: 'debug/site',
@@ -49,10 +49,11 @@ const defaults = {
 };
 
 module.exports = class Staticify {
-    constructor (options, eventEmitter) {
+    constructor (options, eventEmitter, socket) {
         this.options = _defaults(options, defaults);
         this.eventEmitter = eventEmitter;
         this.registerEvents();
+        this.socket = socket;
 
         this.regex = {
             href: /href=(?:"|')(.*?)(?:"|')/g,
@@ -192,12 +193,16 @@ module.exports = class Staticify {
 
         // request css and parse for assets and push, then grab all assets & check for duplicates
         this.assetCount.css.length = this.css.length;
+        this.socket.emit('css length', this.assetCount.css);
+
         this.css.map(asset => {
             this.requestAsset(asset, { mode: 'css' });
         });
 
         this.eventEmitter.on('css:complete', () => {
             this.assetCount.asset.length = this.assets.length;
+            this.socket.emit('asset length', this.assetCount.asset);
+
             this.assets.map(asset => {
                 this.requestAsset(asset);
             });
@@ -665,8 +670,10 @@ module.exports = class Staticify {
         // always
         .then(() => {
             this.assetCount[mode].count++;
+            this.socket.emit(`${mode} complete`, this.assetCount[mode]);
 
             if (this.assetCount[mode].count === this.assetCount[mode].length) {
+                console.log(`${mode}:complete`);
                 this.eventEmitter.emit(`${mode}:complete`);
             }
         });
@@ -739,9 +746,13 @@ module.exports = class Staticify {
     * Handle asset success
     **/
     handleAssetSuccess (target) {
+        const msg = `✔ Retreived your asset: | ${target}`;
+
         if (this.options.verbose) {
-            console.log(`✔ Retreived your asset: | ${target}`.green);
+            console.log(`${msg}`.green);
         }
+
+        this.socket.emit('status', msg);
     }
 
     /**
@@ -759,6 +770,7 @@ module.exports = class Staticify {
         console.log('\n=====================');
         console.log(msg);
         console.log('=====================\n');
+
 
         this.log.map(log => {
             if (log.type === 'error') {
@@ -828,11 +840,14 @@ module.exports = class Staticify {
      * Zip output
      */
     zipOutput () {
-        const { outputDir } = this.option;
-        const destination = outputDir + 'output.zip';
+        console.log('zipping...');
+
+        const { outputDir } = this.options;
+        const source = `${__dirname}/${outputDir}`;
+        const destination = `../public/output/output.zip`;
 
         // TODO: call this from the front end
-        zipFolder(`${__dirname}/${outputDir}`, `${__dirname}/${destination}`, (err) => {
+        zipFolder(source, destination, (err) => {
             if (err) {
                 console.log('zipOutput: ', err);
             }
@@ -846,6 +861,8 @@ module.exports = class Staticify {
                 this.eventEmitter.emit('zip:success', data);
             }
         });
+
+        this.socket.emit('zipped', 'output/output.zip');
         this.eventEmitter.emit('zip:success', this.html);
     }
-}
+};

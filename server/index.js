@@ -12,7 +12,8 @@ const rimraf = require('rimraf');
 const path = require('path');
 
 const eventEmitter = new events.EventEmitter();
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
+const IP = '127.0.0.1';
 const PUBLIC = path.resolve(__dirname + '/../public');
 
 // middleware
@@ -76,18 +77,43 @@ else if (process.argv[2] === 'clean') {
 /**
  * Recursively remove output directory
  **/
-function removeDirs () {
-    rimraf(__dirname + '/public/output', {}, () => {
-        console.log('removed /output');
-    });
-    rimraf(__dirname + '/public/output.zip', {}, () => {
-        console.log('removed /public/output.zip');
+
+function removeDirs (exit = null) {
+    const outputLocation = `${__dirname}/../public/output/`;
+
+    rimraf(outputLocation, {}, () => {
+        console.log('removed output directory');
     });
 }
 
-io.on('connection', (socket) => {
-    console.log('got a connection!')
+/**
+* Socket connection
+**/
+
+http.listen(PORT, IP, () => {
+    console.log(`App listening on ${PORT}`);
+    console.log(`Serving from ${PUBLIC}`);
+    removeDirs();
 });
+
+io.on('connection', (socket) => {
+    socket.on('request bundle', (data) => {
+        const { requestUri, fileName, redirectUri, assetPath } = data;
+        const bundle = new Staticify({
+            requestUri: requestUri,
+            assetPath: assetPath,
+            outputFile: fileName,
+            targetUri: redirectUri,
+            verbose: true
+        }, eventEmitter, io).initiate();
+
+        io.emit('status', 'Server received request');
+    });
+});
+
+/**
+* Post request
+**/
 
 app.post('/', (req, res, next) => {
     console.log('got a POST request\n');
@@ -130,8 +156,8 @@ app.post('/', (req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`App listening on ${PORT}`);
-    console.log(`Serving from ${PUBLIC}`);
-    removeDirs();
-});
+// app.listen(PORT, () => {
+//     console.log(`App listening on ${PORT}`);
+//     console.log(`Serving from ${PUBLIC}`);
+//     removeDirs();
+// });
