@@ -14,7 +14,7 @@ const path = require('path');
 const eventEmitter = new events.EventEmitter();
 const PORT = 8000;
 const IP = '127.0.0.1';
-const PUBLIC = path.resolve(__dirname + '/../site/public');
+const PUBLIC = path.resolve(__dirname + '/site/public');
 
 // middleware
 app.use(bodyParser.json());
@@ -81,8 +81,6 @@ else if (process.argv[2] === 'clean') {
 function removeDirs (exit = null) {
     const outputLocation = `${__dirname}/site/public/output/`;
     const outputZip = `${__dirname}/site/public/output_bundle.zip`;
-
-    console.log(outputLocation);
 
     rimraf(outputLocation, {}, () => {
         console.log('removed output directory');
