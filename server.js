@@ -13,7 +13,6 @@ const path = require('path');
 
 const eventEmitter = new events.EventEmitter();
 const PORT = process.env.PORT || 8000;
-const IP = '127.0.0.1';
 const PUBLIC = path.resolve(__dirname + '/site/public');
 
 // middleware
@@ -95,7 +94,7 @@ function removeDirs (exit = null) {
 * Socket connection
 **/
 
-http.listen(PORT, IP, () => {
+http.listen(PORT, () => {
     console.log(`App listening on ${PORT}`);
     console.log(`Serving from ${PUBLIC}`);
     removeDirs();
