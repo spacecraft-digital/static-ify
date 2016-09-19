@@ -12,7 +12,7 @@ const rimraf = require('rimraf');
 const path = require('path');
 
 const eventEmitter = new events.EventEmitter();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const IP = '127.0.0.1';
 const PUBLIC = path.resolve(__dirname + '/site/public');
 
