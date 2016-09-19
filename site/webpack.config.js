@@ -17,6 +17,13 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        })
+    ],
     output: {
         filename: 'public/dist/bundle.js'
     },
@@ -24,6 +31,5 @@ module.exports = {
         './src/index.js'
     ],
     watch: true,
-    colors: true,
-    prigress: true
+    colors: true
 };
