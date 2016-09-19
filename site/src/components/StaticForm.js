@@ -7,7 +7,7 @@ export default class StaticForm extends Component {
     constructor (props) {
         super(props);
 
-        this.socket = io(this.props.server);
+        this.socket = io();
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 

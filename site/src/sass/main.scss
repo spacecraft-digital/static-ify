@@ -45,6 +45,10 @@ input[type="checkbox"] {
     -webkit-appearance: none;
 }
 
+html {
+    min-width: 900px;
+}
+
 body {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;

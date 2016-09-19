@@ -4,12 +4,10 @@ import StaticForm from './components/StaticForm';
 import DownloadButton from './components/DownloadButton';
 import StaticDash from './components/StaticDash';
 
-const SERVER = 'http://localhost:8000';
-
 export default class App extends Component {
     constructor (props) {
         super(props);
-        this.socket = io(SERVER);
+        this.socket = io();
         this.state = {
             status: null,
             bundle: {
@@ -88,7 +86,7 @@ export default class App extends Component {
         return (
             <div className="app">
                 <div className="sidebar">
-                    <StaticForm server={ SERVER } />
+                    <StaticForm />
                 </div>
                 <div className="content">
                     <StaticDash status={ status } css={ css } asset={ asset } bundle={ bundle } />
