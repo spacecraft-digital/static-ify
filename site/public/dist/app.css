@@ -264,13 +264,18 @@ label {
 **/
 .sidebar {
   background-color: #5386E4;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  justify-content: space-between;
   left: 0;
   overflow: auto;
   padding: 1.25rem;
   position: fixed;
   top: 0;
   width: 20rem; }
+  .sidebar .identity {
+    margin-top: 2rem; }
 
 /**
 * Contents
@@ -300,7 +305,8 @@ label {
   color: #7ca2e9;
   display: block;
   padding: 1.5rem;
-  position: relative; }
+  position: relative;
+  text-transform: capitalize; }
   .nav__link:after {
     background-color: #EF8354;
     bottom: -1px;
@@ -337,7 +343,8 @@ label {
 
 .status__text {
   margin-bottom: 1.5rem;
-  text-align: center; }
+  text-align: center;
+  word-break: break-all; }
 
 .status__progress {
   font-size: .5rem;

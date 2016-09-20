@@ -27,11 +27,12 @@ export default class StaticDash extends Component {
         this.setState({ iframeWidth: `${iframeWidth}px` });
     }
 
-
     render () {
         const { status, statusCode, css, asset, bundle } = this.props;
         const { iframeWidth } = this.state;
         let requestStatus;
+
+        console.log('bundle location: ', bundle.dir);
 
         switch (statusCode) {
             case 100:

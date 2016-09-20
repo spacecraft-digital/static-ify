@@ -26,6 +26,8 @@ export default class App extends Component {
             }
         };
 
+        // TODO thin about refactoring this interface for handling socket emissions
+
         this.socket.on('status', (status) => {
             this.setState({
                 status: status
@@ -79,6 +81,14 @@ export default class App extends Component {
                 bundle: {
                     zip: file.zip,
                     dir: file.dir
+                },
+                css: {
+                    length: null,
+                    count: 0
+                },
+                asset: {
+                    length: null,
+                    count: 0
                 }
             });
         });

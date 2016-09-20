@@ -53,19 +53,24 @@ http.listen(PORT, () => {
 });
 
 io.on('connection', (socket) => {
+    socket.emit('status', 'connected to server');
+    socket.emit('status', 'cleaning output directory...');
+
+    cleanOutput(() => {
+        socket.emit('status', 'ready for request');
+    });
+
     socket.on('request bundle', (data) => {
         io.emit('status', 'Server received request');
         io.emit('status code', 200);
 
-        cleanOutput(() => {
-            const { requestUri, fileName, redirectUri, assetPath } = data;
-            const bundle = new Staticify({
-                requestUri: requestUri,
-                assetPath: assetPath,
-                outputFile: fileName,
-                targetUri: redirectUri,
-                verbose: true
-            }, eventEmitter, io).initiate();
-        });
+        const { requestUri, fileName, redirectUri, assetPath } = data;
+        const bundle = new Staticify({
+            requestUri: requestUri,
+            assetPath: assetPath,
+            outputFile: fileName,
+            targetUri: redirectUri,
+            verbose: true
+        }, eventEmitter, io).initiate();
     });
 });

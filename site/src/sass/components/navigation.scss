@@ -25,6 +25,7 @@
     display: block;
     padding: 1.5rem;
     position: relative;
+    text-transform: capitalize;
 
     &:after {
         background-color: $color-secondary;

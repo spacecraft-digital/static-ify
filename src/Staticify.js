@@ -24,6 +24,7 @@ const requestOptions = {
 // TODO LIST
 // 1. prevent duplicate assets being retrieved
 // 2. ensure output directory is properly cleared down before starting each initiation
+// 3. debug asset count on multiple instantiations
 
 const defaults = {
     outputDir: '../site/public/output',
@@ -76,6 +77,8 @@ module.exports = class Staticify {
             scriptContent: /<script>([\S\s]*)<\/script>/g
         };
 
+        this.zipBundleName = 'output_bundle.zip';
+
         // Let's get out of here if we don't have a requestUri or a targetUri
         // there's a good chance this will be taken care of on the front end
         if (!this.options.requestUri) {
@@ -96,10 +99,9 @@ module.exports = class Staticify {
         this.assets = [];
         this.css = [];
 
-                // create output dir structure
+        // create output dir structure
         this.createDirs();
 
-        // TODO improve this
         this.assetCount = {
             css: {
                 count: 0,
@@ -149,6 +151,8 @@ module.exports = class Staticify {
     initiate () {
         const destination = `${this.options.outputDir}/${this.options.outputFile}.html`;
 
+        this.socket.emit('status', 'Static-ify initiated');
+
         // create output dir structure
         this.createDirs();
 
@@ -161,6 +165,8 @@ module.exports = class Staticify {
             console.log(`✔ ${this.options.requestUri}`);
             console.log('=====================');
 
+            this.socket.emit('status', `✔ ${this.options.requestUri}`);
+
             body = this.parseHtml(body);
 
             this.saveFile(body, destination);
@@ -168,7 +174,8 @@ module.exports = class Staticify {
         // error
         .catch(err => {
             console.log(err);
-            console.log(`did not get a response from ${this.options.requestUri}`);
+            console.log(`could not get a response from ${this.options.requestUri}`);
+            this.socket.emit('status', `could not get a response from ${this.options.requestUri}`);
             this.eventEmitter.emit('html:error', this.options.requestUri);
         });
     }
@@ -830,28 +837,24 @@ module.exports = class Staticify {
      * Zip output
      */
     zipOutput () {
-        const { outputDir } = this.options;
+        const { outputDir, outputFile } = this.options;
         const source = `${__dirname}/${outputDir}`;
-        const destination = `${__dirname}/../site/public/output_bundle.zip`;
+        const destination = `${__dirname}/../site/public/${this.zipBundleName}`;
 
-        // TODO: call this from the front end
         zipFolder(source, destination, (err) => {
             if (err) {
                 console.log('zipOutput: ', err);
             }
             else {
                 let data = {
-                    destination: 'output_bundle.zip',
-                    // size: this
-                    // .getFileSize(`${__dirname}/${destination}`),
-                    log: this.log
+                    zip: this.zipBundleName,
+                    dir: `${outputFile}.html`,
+                    size: this.getFileSize(destination)
                 };
 
                 this.eventEmitter.emit('zip:success', data);
+                this.socket.emit('zipped', data);
             }
         });
-
-        this.socket.emit('zipped',  { zip: 'output_bundle.zip', dir: 'output/foo.html' });
-        this.eventEmitter.emit('zip:success', this.html);
     }
 };
