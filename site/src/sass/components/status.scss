@@ -1,0 +1,35 @@
+/**
+* Status
+**/
+
+.status {
+    color: mix(#000, #fff, 35%);
+    left: 50%;
+    margin: 0 auto;
+    max-width: 70%;
+    opacity: 1;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 200ms;
+
+    .iframe--complete & {
+        opacity: 0;
+    }
+}
+
+.status__text {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.status__progress {
+    font-size: .5rem;
+    margin-bottom: .25rem;
+}
+
+.status__progress--complete {
+    .status__complete {
+        color: $color-green;
+    }
+}

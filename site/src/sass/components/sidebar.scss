@@ -1,0 +1,14 @@
+/**
+* Sidebar
+**/
+
+.sidebar {
+    background-color: $color-primary;
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding: 1.25rem;
+    position: fixed;
+    top: 0;
+    width: 20rem;
+}

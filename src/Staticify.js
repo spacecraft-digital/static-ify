@@ -671,7 +671,7 @@ module.exports = class Staticify {
         .then(() => {
             this.assetCount[mode].count++;
             this.socket.emit(`${mode} complete`, this.assetCount[mode]);
-            this.socket.emit('status', `requested ${asset.target}`);
+            this.socket.emit('status', asset.target);
 
             if (this.assetCount[mode].count === this.assetCount[mode].length) {
                 console.log(`${mode}:complete`);
@@ -686,17 +686,6 @@ module.exports = class Staticify {
      getFileSize (file) {
         const stats = fs.statSync(file);
         return `${Math.round(stats['size'] / 1024)}kb`;
-    }
-
-    /**
-    * Print log
-    **/
-    printLog () {
-        const logLength = this.log.length;
-
-        for (let i = 0; i < logLength; i++) {
-            console.log(`${this.log[i][0]} --> ${this.log[i][1]}`);
-        }
     }
 
     /**
@@ -776,6 +765,8 @@ module.exports = class Staticify {
                 console.log(`${log.msg}`.red);
             }
         });
+
+        this.socket.emit('status code', 300);
 
         this.zipOutput();
     }

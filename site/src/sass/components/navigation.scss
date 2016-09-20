@@ -1,0 +1,53 @@
+/**
+* Navigation
+**/
+
+.logo {
+    color: $color-text-subtle;
+    font-size: 1.75rem;
+    margin: auto 0;
+}
+
+.nav {
+    border-bottom: 1px solid $color-border;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.nav__list {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav__link {
+    color: $color-text-subtle;
+    display: block;
+    padding: 1.5rem;
+    position: relative;
+
+    &:after {
+        background-color: $color-secondary;
+        bottom: -1px;
+        content: '';
+        height: 2px;
+        opacity: 0;
+        position: absolute;
+        width: 0;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $color-primary;
+        transition: color 200ms;
+
+        &:after {
+            left: 50%;
+            opacity: 1;
+            transform: translateX(-50%);
+            transition: opacity 200ms, width 200ms;
+            width: 100%;
+        }
+    }
+}

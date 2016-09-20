@@ -55,6 +55,7 @@ http.listen(PORT, () => {
 io.on('connection', (socket) => {
     socket.on('request bundle', (data) => {
         io.emit('status', 'Server received request');
+        io.emit('status code', 200);
 
         cleanOutput(() => {
             const { requestUri, fileName, redirectUri, assetPath } = data;

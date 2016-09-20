@@ -1,0 +1,18 @@
+/**
+* Typography
+**/
+
+.identity {
+    color: mix($color-black, $color-primary, 25%);
+    font-size: .75rem;
+    font-weight: bold;
+    margin-top: 2.5rem;
+}
+
+.identity__link {
+    &:hover,
+    &:focus,
+    &:active {
+        color: $color-white;
+    }
+}

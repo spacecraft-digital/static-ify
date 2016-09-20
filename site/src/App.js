@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import StaticForm from './components/StaticForm';
 import DownloadButton from './components/DownloadButton';
 import StaticDash from './components/StaticDash';
+import Navigation from './components/Navigation';
 
 export default class App extends Component {
     constructor (props) {
@@ -10,6 +11,7 @@ export default class App extends Component {
         this.socket = io();
         this.state = {
             status: null,
+            statusCode: 100,
             bundle: {
                 zip: null,
                 dir: null
@@ -25,23 +27,51 @@ export default class App extends Component {
         };
 
         this.socket.on('status', (status) => {
-            this.updateStatus(status);
+            this.setState({
+                status: status
+            });
+        });
+
+        this.socket.on('status code', (code) => {
+            this.setState({
+                statusCode: code
+            });
         });
 
         this.socket.on('css length', (css) => {
-            this.updateCss(css);
+            this.setState({
+                css: {
+                    length: css.length,
+                    count: css.count
+                }
+            });
         });
 
         this.socket.on('css complete', (css) => {
-            this.updateCss(css);
+            this.setState({
+                css: {
+                    length: css.length,
+                    count: css.count
+                }
+            });
         });
 
         this.socket.on('asset length', (asset) => {
-            this.updateAsset(asset);
+            this.setState({
+                asset: {
+                    length: asset.length,
+                    count: asset.count
+                }
+            });
         });
 
         this.socket.on('asset complete', (asset) => {
-            this.updateAsset(asset);
+            this.setState({
+                asset: {
+                    length: asset.length,
+                    count: asset.count
+                }
+            });
         });
 
         this.socket.on('zipped', (file) => {
@@ -56,21 +86,6 @@ export default class App extends Component {
         });
     }
 
-    updateStatus (status) {
-        this.setState({
-            status: status
-        });
-    }
-
-    updateCss (css) {
-        this.setState({
-            css: {
-                length: css.length,
-                count: css.count
-            }
-        });
-    }
-
     updateAsset (asset) {
         this.setState({
             asset: {
@@ -81,15 +96,17 @@ export default class App extends Component {
     }
 
     render () {
-        const { status, css, asset, bundle } = this.state;
+        const { status, statusCode, css, asset, bundle } = this.state;
 
         return (
             <div className="app">
                 <div className="sidebar">
                     <StaticForm />
+                    <p className="identity">Static-ify 2016 | <a className="identity__link" href="http://twitter.com/mikedevelops">MikeDevelops</a></p>
                 </div>
                 <div className="content">
-                    <StaticDash status={ status } css={ css } asset={ asset } bundle={ bundle } />
+                    <Navigation />
+                    <StaticDash status={ status } statusCode={ statusCode } css={ css } asset={ asset } bundle={ bundle } />
                     <DownloadButton bundle={ bundle.zip } />
                 </div>
             </div>

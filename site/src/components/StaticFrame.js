@@ -5,7 +5,7 @@ export default class StaticFrame extends Component {
         const { bundle, iframeWidth } = this.props;
 
         return (
-            <iframe src={ bundle } width={ iframeWidth }></iframe>
+            <iframe className="iframe__element" src={ bundle } width={ iframeWidth }></iframe>
         );
     }
 }

@@ -1,0 +1,37 @@
+/**
+* Primary
+**/
+
+$color-black: #000;
+$color-code: #C9144C;
+$color-red: #FF6059;
+$color-green: #28CA42;
+$color-yellow: #FFBF2F;
+$color-blue: #3498DB;
+$color-white: #fff;
+$color-grey-light: #F7F7F9;
+
+/**
+* Brand
+**/
+
+$color-primary: #5386E4;
+$color-primary-dark: mix($color-black, $color-primary, 35%);
+$color-primary-light: #B4DCED;
+
+$color-secondary: #EF8354;
+$color-secondary-dark: mix($color-black, $color-secondary, 20%);
+
+/**
+* Misc
+**/
+
+$color-border: mix($color-grey-light, $color-primary, 75%);
+$chrome-bg: #E2E2E2;
+$color-iframe-chrome: mix(#000, #fff, 10%);
+
+/**
+* Text
+**/
+
+$color-text-subtle: mix($color-grey-light, $color-primary, 25%);
