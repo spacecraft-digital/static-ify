@@ -165,10 +165,7 @@ module.exports = class Staticify {
             console.log(`✔ ${this.options.requestUri}`);
             console.log('=====================');
 
-            this.socket.emit('status', `✔ ${this.options.requestUri}`);
-
             body = this.parseHtml(body);
-
             this.saveFile(body, destination);
         })
         // error
@@ -176,6 +173,7 @@ module.exports = class Staticify {
             console.log(err);
             console.log(`could not get a response from ${this.options.requestUri}`);
             this.socket.emit('status', `could not get a response from ${this.options.requestUri}`);
+            this.socket.emit('status code', 400);
             this.eventEmitter.emit('html:error', this.options.requestUri);
         });
     }
@@ -841,6 +839,8 @@ module.exports = class Staticify {
         const source = `${__dirname}/${outputDir}`;
         const destination = `${__dirname}/../site/public/${this.zipBundleName}`;
 
+        this.reset();
+
         zipFolder(source, destination, (err) => {
             if (err) {
                 console.log('zipOutput: ', err);
@@ -856,5 +856,26 @@ module.exports = class Staticify {
                 this.socket.emit('zipped', data);
             }
         });
+    }
+
+    /**
+     * Reset Application
+     */
+    reset () {
+        this.assetCount = {
+            css: {
+                count: 0,
+                success: 0,
+                length: 0
+            },
+            asset: {
+                count: 0,
+                success: 0,
+                length: 0
+            }
+        };
+
+        this.assets = [];
+        this.css = [];
     }
 };
