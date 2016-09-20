@@ -27,7 +27,7 @@ export default class StaticForm extends Component {
     }
 
     render () {
-        const { serverUri } = this.props;
+        const { serverUri, statusCode } = this.props;
 
         return (
             <form className="form" method="post" action={serverUri} onSubmit={this.handleSubmit}>
@@ -65,7 +65,7 @@ export default class StaticForm extends Component {
                         </div>
                     </div>
                 </div>
-                <GenerateButton />
+                <GenerateButton statusCode={ statusCode } />
             </form>
         );
     }

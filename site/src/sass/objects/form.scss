@@ -26,10 +26,6 @@
     }
 }
 
-.form__input {
-    margin-right: 1rem;
-}
-
 .form__help {
     border-radius: $border-radius;
     display: block;
@@ -46,7 +42,6 @@
     border-radius: $border-radius;
     display: block;
     font-size: .75rem;
-    min-width: 15rem;
     padding: .5rem;
     width: 100%;
 

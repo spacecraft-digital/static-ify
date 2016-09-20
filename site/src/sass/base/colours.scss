@@ -15,9 +15,9 @@ $color-grey-light: #F7F7F9;
 * Brand
 **/
 
-$color-primary: #5386E4;
+$color-primary: #4F5D75;
 $color-primary-dark: mix($color-black, $color-primary, 35%);
-$color-primary-light: #B4DCED;
+$color-primary-light: mix($color-white, $color-primary, 35%);
 
 $color-secondary: #EF8354;
 $color-secondary-dark: mix($color-black, $color-secondary, 20%);

@@ -6,7 +6,9 @@
     color: mix($color-black, $color-primary, 25%);
     font-size: .75rem;
     font-weight: bold;
+    margin-bottom: .5rem;
     margin-top: 2.5rem;
+    text-shadow: -1px -1px 0 mix($color-primary, $color-primary-light, 75%);
 }
 
 .identity__link {

@@ -81,14 +81,6 @@ export default class App extends Component {
                 bundle: {
                     zip: file.zip,
                     dir: file.dir
-                },
-                css: {
-                    length: null,
-                    count: 0
-                },
-                asset: {
-                    length: null,
-                    count: 0
                 }
             });
         });
@@ -109,7 +101,7 @@ export default class App extends Component {
         return (
             <div className="app">
                 <div className="sidebar">
-                    <StaticForm />
+                    <StaticForm statusCode={ statusCode } />
                     <p className="identity">Static-ify 2016 | <a className="identity__link" href="http://twitter.com/mikedevelops">MikeDevelops</a></p>
                 </div>
                 <div className="content">

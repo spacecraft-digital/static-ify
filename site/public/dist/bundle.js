@@ -20589,14 +20589,6 @@
 	                bundle: {
 	                    zip: file.zip,
 	                    dir: file.dir
-	                },
-	                css: {
-	                    length: null,
-	                    count: 0
-	                },
-	                asset: {
-	                    length: null,
-	                    count: 0
 	                }
 	            });
 	        });
@@ -20630,7 +20622,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'sidebar' },
-	                    _react2.default.createElement(_StaticForm2.default, null),
+	                    _react2.default.createElement(_StaticForm2.default, { statusCode: statusCode }),
 	                    _react2.default.createElement(
 	                        'p',
 	                        { className: 'identity' },
@@ -29880,7 +29872,9 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var serverUri = this.props.serverUri;
+	            var _props = this.props;
+	            var serverUri = _props.serverUri;
+	            var statusCode = _props.statusCode;
 
 
 	            return _react2.default.createElement(
@@ -30009,7 +30003,7 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement(_GenerateButton2.default, null)
+	                _react2.default.createElement(_GenerateButton2.default, { statusCode: statusCode })
 	            );
 	        }
 	    }]);
@@ -30083,7 +30077,7 @@
 /* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -30124,15 +30118,30 @@
 	    }
 
 	    (0, _createClass3.default)(GenerateButton, [{
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
+	            var statusCode = this.props.statusCode;
+
+	            var activeClass = void 0;
+
+	            console.log(statusCode);
+
+	            switch (statusCode) {
+	                case 200:
+	                    activeClass = ' button--disabled';
+	                    break;
+	                default:
+	                    activeClass = '';
+	                    break;
+	            }
+
 	            return _react2.default.createElement(
-	                "button",
-	                { className: "button form__submit", type: "submit", value: "Generate bundle" },
+	                'button',
+	                { className: 'button form__submit' + activeClass, type: 'submit', value: 'Generate bundle' },
 	                _react2.default.createElement(
-	                    "p",
-	                    { className: "button__text" },
-	                    "Generate Bundle"
+	                    'p',
+	                    { className: 'button__text' },
+	                    'Generate Bundle'
 	                )
 	            );
 	        }
@@ -30313,8 +30322,6 @@
 	            var iframeWidth = this.state.iframeWidth;
 
 	            var requestStatus = void 0;
-
-	            console.log('bundle location: ', bundle.dir);
 
 	            switch (statusCode) {
 	                case 100:

@@ -71,10 +71,12 @@ label {
 * Typography
 **/
 .identity {
-  color: #3e65ab;
+  color: #3b4658;
   font-size: .75rem;
   font-weight: bold;
-  margin-top: 2.5rem; }
+  margin-bottom: .5rem;
+  margin-top: 2.5rem;
+  text-shadow: -1px -1px 0 #5f6b81; }
 
 .identity__link:hover, .identity__link:focus, .identity__link:active {
   color: #fff; }
@@ -122,16 +124,13 @@ label {
 .form__control {
   background-color: #fff;
   border-radius: 3px;
-  box-shadow: inset 0 -3px 0 0 #365794;
+  box-shadow: inset 0 -3px 0 0 #333c4c;
   margin: 0 0 1rem;
   padding: 1.25rem;
   width: 100%; }
 
 .form__group .form__input:not(:last-of-type) {
   margin-bottom: .5rem; }
-
-.form__input {
-  margin-right: 1rem; }
 
 .form__help {
   border-radius: 3px;
@@ -144,15 +143,14 @@ label {
 
 .form__field {
   -webkit-appearance: none;
-  border: 1px solid #cedbf4;
+  border: 1px solid #cdd1d8;
   border-radius: 3px;
   display: block;
   font-size: .75rem;
-  min-width: 15rem;
   padding: .5rem;
   width: 100%; }
   .form__field:hover, .form__field:focus, .form__field:active {
-    border-color: #5386E4;
+    border-color: #4F5D75;
     transition: border-color 200ms; }
 
 .form__checkbox-wrap {
@@ -168,7 +166,7 @@ label {
   font-size: .75rem; }
 
 .form__checkbox {
-  border: 1px solid #cedbf4;
+  border: 1px solid #cdd1d8;
   border-radius: 3px;
   cursor: pointer;
   margin-right: .75rem;
@@ -207,8 +205,8 @@ label {
     opacity: 1; }
 
 .iframe__wrapper {
-  border: 1px solid #cedbf4;
-  border-top-color: rgba(206, 219, 244, 0);
+  border: 1px solid #cdd1d8;
+  border-top-color: rgba(205, 209, 216, 0);
   border-radius: 0 0 3px 3px;
   height: 400px;
   margin-bottom: 1rem;
@@ -216,7 +214,7 @@ label {
 
 .iframe__chrome {
   background-color: rgba(230, 230, 230, 0);
-  border: 1px solid #cedbf4;
+  border: 1px solid #cdd1d8;
   border-radius: 3px 3px 0 0;
   display: flex;
   height: 25px;
@@ -225,19 +223,13 @@ label {
     background-color: #e6e6e6; }
 
 .iframe__ui {
-  background-color: #FF6059;
-  border: 1px solid #d9524c;
+  background-color: transparent;
+  border: 1px solid #cdd1d8;
   border-radius: 50%;
   display: inline-block;
   margin: auto 5px auto 0;
   height: 8px;
   width: 8px; }
-  .iframe__ui:nth-of-type(2) {
-    background-color: #28CA42;
-    border-color: #22ac38; }
-  .iframe__ui:nth-of-type(3) {
-    background-color: #FFBF2F;
-    border-color: #e6ac2a; }
 
 .iframe--loading .loading {
   display: block; }
@@ -263,7 +255,7 @@ label {
 * Sidebar
 **/
 .sidebar {
-  background-color: #5386E4;
+  background-color: #4F5D75;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -273,7 +265,7 @@ label {
   padding: 1.25rem;
   position: fixed;
   top: 0;
-  width: 20rem; }
+  width: 22rem; }
   .sidebar .identity {
     margin-top: 2rem; }
 
@@ -281,18 +273,18 @@ label {
 * Contents
 **/
 .content {
-  margin-left: 20rem; }
+  margin-left: 22rem; }
 
 /**
 * Navigation
 **/
 .logo {
-  color: #7ca2e9;
+  color: #798496;
   font-size: 1.75rem;
   margin: auto 0; }
 
 .nav {
-  border-bottom: 1px solid #cedbf4;
+  border-bottom: 1px solid #cdd1d8;
   display: flex;
   justify-content: space-between;
   padding: 0 2rem; }
@@ -302,7 +294,7 @@ label {
   justify-content: flex-end; }
 
 .nav__link {
-  color: #7ca2e9;
+  color: #798496;
   display: block;
   padding: 1.5rem;
   position: relative;
@@ -316,7 +308,7 @@ label {
     position: absolute;
     width: 0; }
   .nav__link:hover, .nav__link:focus, .nav__link:active {
-    color: #5386E4;
+    color: #4F5D75;
     transition: color 200ms; }
     .nav__link:hover:after, .nav__link:focus:after, .nav__link:active:after {
       left: 50%;
@@ -368,7 +360,7 @@ label {
 
 .code {
   background-color: #F7F7F9;
-  border: 1px solid #cedbf4;
+  border: 1px solid #cdd1d8;
   border-radius: 3px;
   color: #C9144C;
   display: inline-block;

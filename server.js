@@ -15,6 +15,9 @@ const eventEmitter = new events.EventEmitter();
 const PORT = process.env.PORT || 8000;
 const PUBLIC = path.resolve(__dirname + '/site/public');
 
+let isInitiated = false;
+let isCleaning = false;
+
 // middleware
 app.use(bodyParser.json());
 app.use(cors());
@@ -56,21 +59,34 @@ io.on('connection', (socket) => {
     socket.emit('status', 'connected to server');
     socket.emit('status', 'cleaning output directory...');
 
-    cleanOutput(() => {
-        socket.emit('status', 'ready for request');
-    });
+    if (!isCleaning) {
+        isCleaning = true;
+
+        cleanOutput(() => {
+            socket.emit('status', 'ready for request');
+            isCleaning = false;
+        });
+    }
+
 
     socket.on('request bundle', (data) => {
-        io.emit('status', 'Server received request');
-        io.emit('status code', 200);
+        if (!isInitiated) {
+            isInitiated = true;
+            io.emit('status', 'Server received request');
+            io.emit('status code', 200);
 
-        const { requestUri, fileName, redirectUri, assetPath } = data;
-        const bundle = new Staticify({
-            requestUri: requestUri,
-            assetPath: assetPath,
-            outputFile: fileName,
-            targetUri: redirectUri,
-            verbose: true
-        }, eventEmitter, io).initiate();
+            const { requestUri, fileName, redirectUri, assetPath } = data;
+            const bundle = new Staticify({
+                requestUri: requestUri,
+                assetPath: assetPath,
+                outputFile: fileName,
+                targetUri: redirectUri,
+                verbose: true
+            }, eventEmitter, io).initiate();
+
+            eventEmitter.on('zip:success', () => {
+                isInitiated = false;
+            });
+        }
     });
 });

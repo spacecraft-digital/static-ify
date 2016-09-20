@@ -32,8 +32,6 @@ export default class StaticDash extends Component {
         const { iframeWidth } = this.state;
         let requestStatus;
 
-        console.log('bundle location: ', bundle.dir);
-
         switch (statusCode) {
             case 100:
                 requestStatus = 'idle';

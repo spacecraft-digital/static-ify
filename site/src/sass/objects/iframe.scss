@@ -41,23 +41,13 @@
 }
 
 .iframe__ui {
-    background-color: $color-red;
-    border: 1px solid mix(#000, $color-red, 15%);
+    background-color: transparent;
+    border: 1px solid $color-border;
     border-radius: 50%;
     display: inline-block;
     margin: auto 5px auto 0;
     height: 8px;
     width: 8px;
-
-    &:nth-of-type(2) {
-        background-color: $color-green;
-        border-color: mix(#000, $color-green, 15%);
-    }
-
-    &:nth-of-type(3) {
-        background-color: $color-yellow;
-        border-color: mix(#000, $color-yellow, 10%);
-    }
 }
 
 .iframe--loading .loading {
