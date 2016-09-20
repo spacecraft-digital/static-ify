@@ -23,7 +23,7 @@ const requestOptions = {
 
 // TODO LIST
 // 1. prevent duplicate assets being retrieved
-// 2. fix relative paths with smarterf solution
+// 2. ensure output directory is properly cleared down before starting each initiation
 
 const defaults = {
     outputDir: '../site/public/output',
@@ -830,14 +830,9 @@ module.exports = class Staticify {
      * Zip output
      */
     zipOutput () {
-        console.log('zipping...');
-
         const { outputDir } = this.options;
         const source = `${__dirname}/${outputDir}`;
         const destination = `${__dirname}/../site/public/output_bundle.zip`;
-
-        console.log(source);
-        console.log(destination);
 
         // TODO: call this from the front end
         zipFolder(source, destination, (err) => {
