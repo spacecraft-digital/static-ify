@@ -75,8 +75,6 @@ export default class App extends Component {
         });
 
         this.socket.on('zipped', (file) => {
-            console.log(file);
-
             this.setState({
                 bundle: {
                     zip: file.zip,
