@@ -2,18 +2,9 @@ import React, { Component } from 'react';
 
 export default class ErrorLog extends Component {
     render () {
-        // const { logs } = this.props;
+        const { logs } = this.props;
         let logNodes = '';
         let logCount = 0;
-
-        const logs = [
-            { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css'},
-            { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css'},
-            { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css'},
-            { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css'},
-            { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css'},
-            { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css'}
-        ];
 
         if (logs) {
             logNodes = logs.map(log => {
