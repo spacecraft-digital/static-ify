@@ -13,8 +13,7 @@ input[type="checkbox"] {
 }
 
 html {
-    min-width: 900px;
-    overflow-x: hidden;
+    min-width: 1100px;
 }
 
 body {
@@ -58,4 +57,8 @@ label {
     display: block;
     font-weight: bold;
     margin-bottom: .5rem;
+}
+
+.app {
+    overflow-x: hidden;
 }

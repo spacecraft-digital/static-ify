@@ -4,6 +4,7 @@ import StaticForm from './components/StaticForm';
 import StaticDash from './components/StaticDash';
 import Navigation from './components/Navigation';
 import ErrorLog from './components/ErrorLog';
+import DownloadButton from './components/DownloadButton';
 
 export default class App extends Component {
     constructor (props) {
@@ -108,14 +109,15 @@ export default class App extends Component {
         return (
             <div className="app">
                 <div className="sidebar">
-                    <StaticForm statusCode={ statusCode } />
+                    <StaticForm statusCode={ statusCode } bundle={ bundle }  />
                     <p className="identity">Static-ify 2016 | <a className="identity__link" href="http://twitter.com/mikedevelops">MikeDevelops</a></p>
                 </div>
                 <div className="content">
-                    <Navigation bundle={ bundle } />
+                    <Navigation />
                     <div className="container">
                         <StaticDash status={ status } statusCode={ statusCode } css={ css } asset={ asset } bundle={ bundle } />
                         <ErrorLog logs={ logs } />
+                        <DownloadButton bundle={ bundle.zip } />
                     </div>
                 </div>
             </div>

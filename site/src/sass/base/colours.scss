@@ -30,6 +30,9 @@ $color-border: mix($color-grey-light, $color-primary, 75%);
 $chrome-bg: #E2E2E2;
 $color-iframe-chrome: mix(#000, #fff, 10%);
 
+$color-valid: $color-green;
+$color-error: $color-red;
+
 /**
 * Text
 **/

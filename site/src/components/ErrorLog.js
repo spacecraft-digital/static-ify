@@ -5,10 +5,12 @@ export default class ErrorLog extends Component {
         const { logs } = this.props;
         let logNodes = '';
         let logCount = 0;
+        let errorClass = '';
 
         if (logs) {
-            logNodes = logs.map(log => {
-                const { type, msg } = log;
+            errorClass = ' error-log__list--active';
+            logNodes = logs.map((logData) => {
+                const { type, msg } = logData;
 
                 if (type === 'error') {
                     logCount++;
@@ -28,7 +30,7 @@ export default class ErrorLog extends Component {
                     <h3 className="error-log__heading">Error Log</h3>
                     <p className="error-log__count">{ logCount }</p>
                 </div>
-                <ul className="error-log__list">{ logNodes }</ul>
+                <ul className={`error-log__list${ errorClass }`}>{ logNodes }</ul>
             </div>
         );
     }

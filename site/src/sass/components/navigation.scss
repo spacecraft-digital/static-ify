@@ -20,6 +20,18 @@
     justify-content: flex-end;
 }
 
+.nav__item {
+    display: flex;
+
+    .button {
+        margin: auto;
+    }
+}
+
+.nav__item--download {
+    margin-left: 1rem;
+}
+
 .nav__link {
     color: $color-text-subtle;
     display: block;

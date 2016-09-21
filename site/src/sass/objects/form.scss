@@ -8,7 +8,6 @@
 
 .form__heading {
     font-size: 1.25rem;
-    margin-bottom: .5rem;
 }
 
 .form__control {
@@ -32,6 +31,7 @@
     font-size: .75rem;
     line-height: 1.7;
     margin-bottom: 1.25rem;
+    margin-top: .5rem;
     max-width: 85ch;
     width: auto;
 }
@@ -51,6 +51,16 @@
         border-color: $color-primary;
         transition: border-color 200ms;
     }
+}
+
+.form__field--valid {
+    border-color: $color-valid;
+    box-shadow: 0 0 3px 1px rgba($color-valid, .15);
+}
+
+.form__field--error {
+    border-color: $color-error;
+    box-shadow: 0 0 3px 1px rgba($color-error, .15);
 }
 
 .form__checkbox-wrap {
@@ -97,4 +107,12 @@
     transform: scale(.6);
     transition: transform 125ms cubic-bezier(0.4, 1.28, 0.57, 1.5);
     width: 1rem;
+}
+
+.optional {
+    color: rgba($color-text-subtle, .5);
+    font-size: .75rem;
+    font-weight: bold;
+    margin-top: .5rem;
+    text-transform: uppercase;
 }

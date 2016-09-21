@@ -11,15 +11,9 @@
     margin: 0;
     padding: 1rem;
     text-decoration: none;
-}
 
-.button--ghost {
-    background: transparent;
-    border: 1px solid $color-border;
-    box-shadow: none;
-
-    .button__text {
-        color: $color-text-subtle;
+    &:not(:last-of-type) {
+        margin-bottom: .75rem;
     }
 }
 
@@ -35,6 +29,13 @@
 }
 
 .button--disabled {
-    opacity: .5;
+    background: transparent;
+    border: 1px solid $color-text-subtle;
+    box-shadow: none;
     cursor: default;
+    opacity: .5;
+
+    .button__text {
+        color: $color-text-subtle;
+    }
 }

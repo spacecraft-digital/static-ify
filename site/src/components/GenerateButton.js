@@ -2,20 +2,11 @@ import React, { Component } from 'react';
 
 export default class GenerateButton extends Component  {
     render () {
-        const { statusCode } = this.props;
-        let activeClass;
-
-        switch (statusCode) {
-            case 200:
-                activeClass = ' button--disabled';
-                break;
-            default:
-                activeClass = '';
-                break;
-        }
+        let isValid = true;
+        let activeClass = isValid ? '' : ' button--disabled';
 
         return (
-            <button className={`button form__submit${activeClass}`} type="submit" value="Generate bundle">
+            <button className={`form__submit button${activeClass}`} type="submit" value="Generate bundle">
                 <p className="button__text">Generate Bundle</p>
             </button>
         );
