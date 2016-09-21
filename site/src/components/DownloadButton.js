@@ -15,7 +15,7 @@ export default class DownloadButton extends Component {
         }
 
         return (
-            <button className={`button${disabled}`}>
+            <button className={`button button--ghost${disabled}`}>
                 { link }
             </button>
         );

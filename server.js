@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
                 verbose: true
             }, eventEmitter, io).initiate();
 
-            eventEmitter.on('zip:success', () => {
+            eventEmitter.on('app:complete', () => {
                 isInitiated = false;
             });
         }

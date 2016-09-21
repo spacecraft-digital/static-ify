@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import StaticForm from './components/StaticForm';
-import DownloadButton from './components/DownloadButton';
 import StaticDash from './components/StaticDash';
 import Navigation from './components/Navigation';
+import ErrorLog from './components/ErrorLog';
 
 export default class App extends Component {
     constructor (props) {
@@ -12,6 +12,7 @@ export default class App extends Component {
         this.state = {
             status: null,
             statusCode: 100,
+            logs: null,
             bundle: {
                 zip: null,
                 dir: null
@@ -84,6 +85,12 @@ export default class App extends Component {
                 }
             });
         });
+
+        this.socket.on('log', (logs) => {
+            this.setState({
+                logs: logs
+            });
+        });
     }
 
     updateAsset (asset) {
@@ -96,7 +103,7 @@ export default class App extends Component {
     }
 
     render () {
-        const { status, statusCode, css, asset, bundle } = this.state;
+        const { status, statusCode, css, asset, bundle, logs } = this.state;
 
         return (
             <div className="app">
@@ -105,9 +112,11 @@ export default class App extends Component {
                     <p className="identity">Static-ify 2016 | <a className="identity__link" href="http://twitter.com/mikedevelops">MikeDevelops</a></p>
                 </div>
                 <div className="content">
-                    <Navigation />
-                    <StaticDash status={ status } statusCode={ statusCode } css={ css } asset={ asset } bundle={ bundle } />
-                    <DownloadButton bundle={ bundle.zip } />
+                    <Navigation bundle={ bundle } />
+                    <div className="container">
+                        <StaticDash status={ status } statusCode={ statusCode } css={ css } asset={ asset } bundle={ bundle } />
+                        <ErrorLog logs={ logs } />
+                    </div>
                 </div>
             </div>
         );

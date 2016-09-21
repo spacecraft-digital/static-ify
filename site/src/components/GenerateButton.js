@@ -5,8 +5,6 @@ export default class GenerateButton extends Component  {
         const { statusCode } = this.props;
         let activeClass;
 
-        console.log(statusCode);
-
         switch (statusCode) {
             case 200:
                 activeClass = ' button--disabled';

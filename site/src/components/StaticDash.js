@@ -40,6 +40,7 @@ export default class StaticDash extends Component {
                 requestStatus = 'get';
                 break;
             case 300:
+            case 500:
                 requestStatus = 'complete';
                 break;
             case 400:
@@ -48,21 +49,19 @@ export default class StaticDash extends Component {
         }
 
         return (
-            <div className="container">
-                <div ref="iframe" className={`iframe iframe--${requestStatus}`}>
-                    <div className="status">
-                        <StatusText status={ status } />
-                        <AssetProgress type="css" length={ css.length } count={ css.count } />
-                        <AssetProgress type="asset" length={ asset.length } count={ asset.count } />
-                    </div>
-                    <div className="iframe__chrome">
-                        <div className="iframe__ui"></div>
-                        <div className="iframe__ui"></div>
-                        <div className="iframe__ui"></div>
-                    </div>
-                    <div className="iframe__wrapper">
-                        <StaticFrame bundle={ bundle.dir } iframeWidth={ iframeWidth } />
-                    </div>
+            <div ref="iframe" className={`iframe iframe--${requestStatus}`}>
+                <div className="status">
+                    <StatusText status={ status } />
+                    <AssetProgress type="css" length={ css.length } count={ css.count } />
+                    <AssetProgress type="asset" length={ asset.length } count={ asset.count } />
+                </div>
+                <div className="iframe__chrome">
+                    <div className="iframe__ui"></div>
+                    <div className="iframe__ui"></div>
+                    <div className="iframe__ui"></div>
+                </div>
+                <div className="iframe__wrapper">
+                    <StaticFrame bundle={ bundle.dir } iframeWidth={ iframeWidth } />
                 </div>
             </div>
         );

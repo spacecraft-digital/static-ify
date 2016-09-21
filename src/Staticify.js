@@ -121,6 +121,7 @@ module.exports = class Staticify {
     **/
     registerEvents () {
         this.eventEmitter.on('app:error', this.handleAppError.bind(this));
+        this.eventEmitter.on('app:complete', this.handleAppComplete.bind(this));
         this.eventEmitter.on('replace:error', this.handleReplaceError.bind(this));
         this.eventEmitter.on('html:success', this.handleHtmlSuccess.bind(this));
         this.eventEmitter.on('html:error', this.handleHtmlError.bind(this));
@@ -839,8 +840,6 @@ module.exports = class Staticify {
         const source = `${__dirname}/${outputDir}`;
         const destination = `${__dirname}/../site/public/${this.zipBundleName}`;
 
-        this.reset();
-
         zipFolder(source, destination, (err) => {
             if (err) {
                 console.log('zipOutput: ', err);
@@ -852,10 +851,20 @@ module.exports = class Staticify {
                     size: this.getFileSize(destination)
                 };
 
-                this.eventEmitter.emit('zip:success', data);
+                this.eventEmitter.emit('app:complete');
                 this.socket.emit('zipped', data);
             }
         });
+    }
+
+    /**
+     * App complete
+     */
+    handleAppComplete () {
+        this.reset();
+
+        this.socket.emit('log', this.log);
+        this.socket.emit('status code', 500);
     }
 
     /**

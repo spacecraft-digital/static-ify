@@ -20494,10 +20494,6 @@
 
 	var _StaticForm2 = _interopRequireDefault(_StaticForm);
 
-	var _DownloadButton = __webpack_require__(304);
-
-	var _DownloadButton2 = _interopRequireDefault(_DownloadButton);
-
 	var _StaticDash = __webpack_require__(305);
 
 	var _StaticDash2 = _interopRequireDefault(_StaticDash);
@@ -20505,6 +20501,10 @@
 	var _Navigation = __webpack_require__(309);
 
 	var _Navigation2 = _interopRequireDefault(_Navigation);
+
+	var _ErrorLog = __webpack_require__(310);
+
+	var _ErrorLog2 = _interopRequireDefault(_ErrorLog);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20520,6 +20520,7 @@
 	        _this.state = {
 	            status: null,
 	            statusCode: 100,
+	            logs: null,
 	            bundle: {
 	                zip: null,
 	                dir: null
@@ -20592,6 +20593,12 @@
 	                }
 	            });
 	        });
+
+	        _this.socket.on('log', function (logs) {
+	            _this.setState({
+	                logs: logs
+	            });
+	        });
 	        return _this;
 	    }
 
@@ -20614,6 +20621,7 @@
 	            var css = _state.css;
 	            var asset = _state.asset;
 	            var bundle = _state.bundle;
+	            var logs = _state.logs;
 
 
 	            return _react2.default.createElement(
@@ -20637,9 +20645,13 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'content' },
-	                    _react2.default.createElement(_Navigation2.default, null),
-	                    _react2.default.createElement(_StaticDash2.default, { status: status, statusCode: statusCode, css: css, asset: asset, bundle: bundle }),
-	                    _react2.default.createElement(_DownloadButton2.default, { bundle: bundle.zip })
+	                    _react2.default.createElement(_Navigation2.default, { bundle: bundle }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'container' },
+	                        _react2.default.createElement(_StaticDash2.default, { status: status, statusCode: statusCode, css: css, asset: asset, bundle: bundle }),
+	                        _react2.default.createElement(_ErrorLog2.default, { logs: logs })
+	                    )
 	                )
 	            );
 	        }
@@ -30124,8 +30136,6 @@
 
 	            var activeClass = void 0;
 
-	            console.log(statusCode);
-
 	            switch (statusCode) {
 	                case 200:
 	                    activeClass = ' button--disabled';
@@ -30220,7 +30230,7 @@
 
 	            return _react2.default.createElement(
 	                'button',
-	                { className: 'button' + disabled },
+	                { className: 'button button--ghost' + disabled },
 	                link
 	            );
 	        }
@@ -30331,6 +30341,7 @@
 	                    requestStatus = 'get';
 	                    break;
 	                case 300:
+	                case 500:
 	                    requestStatus = 'complete';
 	                    break;
 	                case 400:
@@ -30340,29 +30351,25 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'container' },
+	                { ref: 'iframe', className: 'iframe iframe--' + requestStatus },
 	                _react2.default.createElement(
 	                    'div',
-	                    { ref: 'iframe', className: 'iframe iframe--' + requestStatus },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'status' },
-	                        _react2.default.createElement(_StatusText2.default, { status: status }),
-	                        _react2.default.createElement(_AssetProgress2.default, { type: 'css', length: css.length, count: css.count }),
-	                        _react2.default.createElement(_AssetProgress2.default, { type: 'asset', length: asset.length, count: asset.count })
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'iframe__chrome' },
-	                        _react2.default.createElement('div', { className: 'iframe__ui' }),
-	                        _react2.default.createElement('div', { className: 'iframe__ui' }),
-	                        _react2.default.createElement('div', { className: 'iframe__ui' })
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'iframe__wrapper' },
-	                        _react2.default.createElement(_StaticFrame2.default, { bundle: bundle.dir, iframeWidth: iframeWidth })
-	                    )
+	                    { className: 'status' },
+	                    _react2.default.createElement(_StatusText2.default, { status: status }),
+	                    _react2.default.createElement(_AssetProgress2.default, { type: 'css', length: css.length, count: css.count }),
+	                    _react2.default.createElement(_AssetProgress2.default, { type: 'asset', length: asset.length, count: asset.count })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'iframe__chrome' },
+	                    _react2.default.createElement('div', { className: 'iframe__ui' }),
+	                    _react2.default.createElement('div', { className: 'iframe__ui' }),
+	                    _react2.default.createElement('div', { className: 'iframe__ui' })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'iframe__wrapper' },
+	                    _react2.default.createElement(_StaticFrame2.default, { bundle: bundle.dir, iframeWidth: iframeWidth })
 	                )
 	            );
 	        }
@@ -30611,6 +30618,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _DownloadButton = __webpack_require__(304);
+
+	var _DownloadButton2 = _interopRequireDefault(_DownloadButton);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Navigation = function (_Component) {
@@ -30624,6 +30635,8 @@
 	    (0, _createClass3.default)(Navigation, [{
 	        key: 'render',
 	        value: function render() {
+	            var bundle = this.props.bundle;
+
 	            var navigation = [{ name: 'wiki', link: 'https://github.com/mikedevelops/static-ify/wiki' }, { name: 'gitHub', link: 'https://github.com/mikedevelops/static-ify' }, { name: 'issues', link: 'https://github.com/mikedevelops/static-ify/issues' }];
 
 	            var navNodes = navigation.map(function (nav) {
@@ -30649,7 +30662,12 @@
 	                _react2.default.createElement(
 	                    'ul',
 	                    { className: 'nav__list' },
-	                    navNodes
+	                    navNodes,
+	                    _react2.default.createElement(
+	                        'li',
+	                        { className: 'nav__item' },
+	                        _react2.default.createElement(_DownloadButton2.default, { bundle: bundle.zip })
+	                    )
 	                )
 	            );
 	        }
@@ -30658,6 +30676,111 @@
 	}(_react.Component);
 
 	exports.default = Navigation;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(165);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(191);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(192);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(196);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(243);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ErrorLog = function (_Component) {
+	    (0, _inherits3.default)(ErrorLog, _Component);
+
+	    function ErrorLog() {
+	        (0, _classCallCheck3.default)(this, ErrorLog);
+	        return (0, _possibleConstructorReturn3.default)(this, (ErrorLog.__proto__ || (0, _getPrototypeOf2.default)(ErrorLog)).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(ErrorLog, [{
+	        key: 'render',
+	        value: function render() {
+	            // const { logs } = this.props;
+	            var logNodes = '';
+	            var logCount = 0;
+
+	            var logs = [{ type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css' }, { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css' }, { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css' }, { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css' }, { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css' }, { type: 'error', msg: '✘ Error retreiving asset: | https://www.norwich.gov.uk/site/styles/generic/standard-oldie.css' }];
+
+	            if (logs) {
+	                logNodes = logs.map(function (log) {
+	                    var type = log.type;
+	                    var msg = log.msg;
+
+
+	                    if (type === 'error') {
+	                        logCount++;
+
+	                        return _react2.default.createElement(
+	                            'li',
+	                            { className: 'error-log__item' },
+	                            _react2.default.createElement(
+	                                'p',
+	                                { className: 'error-log__log' },
+	                                msg
+	                            )
+	                        );
+	                    }
+	                });
+	            }
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'error-log' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'error-log__top' },
+	                    _react2.default.createElement(
+	                        'h3',
+	                        { className: 'error-log__heading' },
+	                        'Error Log'
+	                    ),
+	                    _react2.default.createElement(
+	                        'p',
+	                        { className: 'error-log__count' },
+	                        logCount
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: 'error-log__list' },
+	                    logNodes
+	                )
+	            );
+	        }
+	    }]);
+	    return ErrorLog;
+	}(_react.Component);
+
+	exports.default = ErrorLog;
 
 /***/ }
 /******/ ]);
