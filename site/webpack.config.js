@@ -1,5 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
+var precss = require('precss');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
     module: {
@@ -13,10 +15,15 @@ module.exports = {
                 query: {
                     plugins: ['transform-runtime'],
                     presets: ['es2015', 'react']
-                }
+                },
+            },
+            {
+                test: /\.scss$/,
+                loaders: ['style', 'css', 'postcss', 'sass?outputStyle=compressed']
             }
         ]
     },
+    postcss: () => [autoprefixer, precss],
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {

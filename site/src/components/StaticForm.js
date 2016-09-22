@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import StaticInput from './StaticInput';
 import GenerateButton from './GenerateButton';
-import DownloadButton from './DownloadButton';
 
 export default class StaticForm extends Component {
     constructor (props) {
