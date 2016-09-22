@@ -232,9 +232,27 @@ module.exports = class Staticify {
         this.assetCount.css.length = this.css.length;
         this.socket.emit('css length', this.assetCount.css);
 
-        this.css.map(asset => {
-            this.requestAsset(asset, { mode: 'css' });
-        });
+        // skip CSS if we can't find any and request assets
+        if (this.css.length) {
+            this.css.map(asset => {
+                this.requestAsset(asset, { mode: 'css' });
+            });
+        }
+        else {
+            this.socket.emit('status', 'Could not find any CSS files');
+
+            // skip assets and quit app if there are no assets
+            if (this.assets.length) {
+                this.assets.map(asset => {
+                    this.requestAsset(asset);
+                });
+            }
+            else {
+                this.socket.emit('status', 'Could not find any assets');
+                this.eventEmitter.emit('app:complete');
+            }
+        }
+
 
         this.eventEmitter.on('css:complete', () => {
             this.assetCount.asset.length = this.assets.length;
