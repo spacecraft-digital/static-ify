@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 8000;
 const PUBLIC = path.resolve(__dirname + '/site/public');
 
 let isInitiated = false;
-let isCleaning = false;
 
 // middleware
 app.use(bodyParser.json());
@@ -24,27 +23,6 @@ app.use(cors());
 
 // serve front end
 app.use(express.static(PUBLIC));
-
-/**
- * Recursively remove output directory
- **/
-
-function cleanOutput (callback = null) {
-    const outputLocation = `${__dirname}/site/public/output/`;
-    const outputZip = `${__dirname}/site/public/output_bundle.zip`;
-
-    rimraf(outputLocation, {}, () => {
-        console.log('removed output directory');
-
-        rimraf(outputZip, {}, () => {
-            console.log('removed output zip');
-
-            if (callback) {
-                callback();
-            }
-        });
-    });
-}
 
 /**
 * Socket connection
@@ -56,18 +34,13 @@ http.listen(PORT, () => {
 });
 
 io.on('connection', (socket) => {
+    const cleanOutputOnLoad = new Staticify({}, null, io);
+
     socket.emit('status', 'connected to server');
-    socket.emit('status', 'cleaning output directory...');
 
-    if (!isCleaning) {
-        isCleaning = true;
-
-        cleanOutput(() => {
-            socket.emit('status', 'ready for request');
-            isCleaning = false;
-        });
-    }
-
+    cleanOutputOnLoad.cleanOutput(() => {
+        cleanOutputOnLoad.socket.emit('status', 'ready for request');
+    });
 
     socket.on('request bundle', (data) => {
         if (!isInitiated) {

@@ -51,6 +51,17 @@ describe('static-ify', () => {
             return expect(actual).to.be.equal(expected);
         });
 
+        it('action', () => {
+            const stringToMatch = '<form action="http://some.com/some/form?value=yo-momma"';
+            let actual;
+
+            stringToMatch.replace(staticify.regex.action, match => actual = match);
+
+            const expected = 'action="http://some.com/some/form?value=yo-momma"';
+
+            return expect(actual).to.be.equal(expected);
+        });
+
         it('grunticon', () => {
             const stringToMatch = 'grunticon(["foo", "foo", "foo"], grunticon.svgLoadedCallback);';
             let actual;
@@ -530,6 +541,15 @@ describe('static-ify', () => {
             const destination =  ['images/RRP_4570.JPG'];
             const actual = staticify.replaceAssetPath(assetSource, destination);
             const expected = 'src="images/RRP_4570.JPG"';
+
+            return expect(actual).to.be.equal(expected);
+        });
+
+        it('returns action="" as expected', () => {
+            const assetSource = 'action';
+            const destination =  ['/some/form/action.php'];
+            const actual = staticify.replaceAssetPath(assetSource, destination);
+            const expected = 'action="/some/form/action.php"';
 
             return expect(actual).to.be.equal(expected);
         });

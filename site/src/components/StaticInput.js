@@ -42,8 +42,6 @@ export default class StaticInput extends Component {
     }
 
     validateValue (value) {
-        console.log(value);
-
         return value !== '' ? this.valid : this.error;
     }
 

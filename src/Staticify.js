@@ -23,8 +23,7 @@ const requestOptions = {
 
 // TODO LIST
 // 1. prevent duplicate assets being retrieved
-// 2. ensure output directory is properly cleared down before starting each initiation
-// 3. debug asset count on multiple instantiations
+// 2. allow multiple request URIs
 
 const defaults = {
     outputDir: '../site/public/output',
@@ -33,6 +32,7 @@ const defaults = {
     assetPath: 'debug/site',
     removeMainContent: false,
     removeScriptContent: false,
+    requestUri: 'http://google.com',
     verbose: true,
     // might not need dir & path, files will live on server
     resources: {
@@ -50,16 +50,23 @@ const defaults = {
 };
 
 module.exports = class Staticify {
-    constructor (options, eventEmitter, socket) {
+    constructor (options, eventEmitter = null, socket = null) {
         this.options = _defaults(options, defaults);
-        this.eventEmitter = eventEmitter;
-        this.registerEvents();
-        this.socket = socket;
+
+        if (eventEmitter) {
+            this.eventEmitter = eventEmitter;
+            this.registerEvents();
+        }
+
+        if (socket) {
+            this.socket = socket;
+        }
 
         this.regex = {
             href: /href=(?:"|')(.*?)(?:"|')/g,
             src: /src=(?:"|')(.*?)(?:"|')/g,
             url: /url\((.*?)\)/g,
+            action: /action=(?:"|')(.*?)(?:"|')/g,
             script: /([\w-]*\.)(?:html|php)/g,
             filename: /(?![..])([\w-]*\.)/g,
             // TODO: this will only match 2 periods in a filename, 'min.pkgd.bundle.js' will not match, improve this
@@ -81,7 +88,7 @@ module.exports = class Staticify {
 
         // Let's get out of here if we don't have a requestUri or a targetUri
         // there's a good chance this will be taken care of on the front end
-        if (!this.options.requestUri) {
+        if (!this.options.requestUri && this.eventEmitter) {
             this.eventEmitter.emit('app:error', 'A requestUris was not provided');
         }
 
@@ -147,6 +154,26 @@ module.exports = class Staticify {
     }
 
     /**
+     * Clean output directory structure
+     */
+     cleanOutput (callback = null) {
+        const outputLocation = `${__dirname}/${this.options.outputDir}`;
+        const outputZip = `${__dirname}/../site/public/${this.zipBundleName}`;
+
+        rimraf(outputLocation, {}, () => {
+            this.socket.emit('status', 'removed output directory');
+
+            rimraf(outputZip, {}, () => {
+                this.socket.emit('status', 'removed output zip');
+
+                if (callback) {
+                    callback();
+                }
+            });
+        });
+    }
+
+    /**
     * Get requestUri body
     **/
     initiate () {
@@ -154,28 +181,30 @@ module.exports = class Staticify {
 
         this.socket.emit('status', 'Static-ify initiated');
 
-        // create output dir structure
-        this.createDirs();
+        this.cleanOutput(() => {
+            // create output dir structure
+            this.createDirs();
 
-        this.resourceSource = this.getResourceSource(this.requestUri);
+            this.resourceSource = this.getResourceSource(this.requestUri);
 
-        rp(this.options.requestUri, requestOptions)
-        // success
-        .then(body => {
-            console.log('\n=====================');
-            console.log(`✔ ${this.options.requestUri}`);
-            console.log('=====================');
+            rp(this.options.requestUri, requestOptions)
+            // success
+            .then(body => {
+                console.log('\n=====================');
+                console.log(`✔ ${this.options.requestUri}`);
+                console.log('=====================');
 
-            body = this.parseHtml(body);
-            this.saveFile(body, destination);
-        })
-        // error
-        .catch(err => {
-            console.log(err);
-            console.log(`could not get a response from ${this.options.requestUri}`);
-            this.socket.emit('status', `could not get a response from ${this.options.requestUri}`);
-            this.socket.emit('status code', 400);
-            this.eventEmitter.emit('html:error', this.options.requestUri);
+                body = this.parseHtml(body);
+                this.saveFile(body, destination);
+            })
+            // error
+            .catch(err => {
+                console.log(err);
+                console.log(`could not get a response from ${this.options.requestUri}`);
+                this.socket.emit('status', `could not get a response from ${this.options.requestUri}`);
+                this.socket.emit('status code', 400);
+                this.eventEmitter.emit('html:error', this.options.requestUri);
+            });
         });
     }
 
@@ -195,7 +224,9 @@ module.exports = class Staticify {
         // url("")
         .replace(this.regex.url, this.handleUri.bind(this, 'url'))
         // grunticon([""])
-        .replace(this.regex.grunticon, this.handleUri.bind(this, 'grunticonGroup'));
+        .replace(this.regex.grunticon, this.handleUri.bind(this, 'grunticonGroup'))
+        // action=""
+        .replace(this.regex.action, this.handleUri.bind(this, 'action'));
 
         // request css and parse for assets and push, then grab all assets & check for duplicates
         this.assetCount.css.length = this.css.length;
@@ -567,6 +598,9 @@ module.exports = class Staticify {
                 break;
             case 'src':
                 assetPrefix = 'src="';
+                break;
+            case 'action':
+                assetPrefix = 'action="';
                 break;
             case 'grunticonGroup':
                 assetPrefix = 'grunticon([';
