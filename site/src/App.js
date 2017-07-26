@@ -10,6 +10,7 @@ export default class App extends Component {
     constructor (props) {
         super(props);
         this.socket = io();
+
         this.state = {
             status: null,
             statusCode: 100,
