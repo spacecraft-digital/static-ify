@@ -60,7 +60,15 @@ export default class StaticInput extends Component {
         }
 
         return (
-            <input onChange={ this.validate.bind(this) } className={`form__field${ inputClass }`} type={ type } id={ id } placeholder={ placeholder } name={ name } />
+            <input
+                onChange={ this.validate.bind(this) }
+                className={`form__field${ inputClass }`}
+                type={ type }
+                id={ id }
+                placeholder={ placeholder }
+                name={ name }
+                required={ this.props.required }
+            />
         );
     }
 }
