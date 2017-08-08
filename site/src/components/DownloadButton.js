@@ -16,7 +16,7 @@ export default class DownloadButton extends Component {
         }
 
         return (
-            <Button active={!!bundle}>
+            <Button valid={!!bundle}>
                 { link }
             </Button>
         );

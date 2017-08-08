@@ -18,6 +18,7 @@ const _defaults = require('lodash.defaults');
 const zipFolder = require('zip-folder');
 
 const requestOptions = {
+    rejectUnauthorized: false,
     encoding: 'binary'
 };
 
