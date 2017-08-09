@@ -30,7 +30,6 @@ app.use(express.static(PUBLIC));
 
 http.listen(PORT, () => {
     console.log(`App listening on ${PORT}`);
-    console.log(`Serving from ${PUBLIC}`);
 });
 
 app.get('/cli/test', (req, res) => {
