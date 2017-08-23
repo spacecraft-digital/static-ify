@@ -47,10 +47,18 @@ app.get('/cli/test', (req, res) => {
 io.on('connection', (socket) => {
     const cleanOutputOnLoad = new Staticify({}, null, io);
 
-    socket.emit('status', 'connected to server');
-
     cleanOutputOnLoad.cleanOutput(() => {
         cleanOutputOnLoad.socket.emit('status', 'ready for request');
+    });
+
+    socket.emit('status', 'connected to server');
+
+    socket.on('disconnect', socket => {
+        console.log('\n=====================');
+        console.log(`RESET`);
+        console.log('=====================\n');
+
+        cleanOutputOnLoad.cleanOutput();
     });
 
     socket.on('request bundle', (data) => {
