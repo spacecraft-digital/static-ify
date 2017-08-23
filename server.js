@@ -44,7 +44,7 @@ app.get('/cli/test', (req, res) => {
     res.send('fin');
 });
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
     const cleanOutputOnLoad = new Staticify({}, null, io);
 
     cleanOutputOnLoad.cleanOutput(() => {
@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
 
     socket.emit('status', 'connected to server');
 
-    socket.on('disconnected', socket => {
+    socket.on('disconnect', socket => {
         console.log('\n=====================');
         console.log(`RESET`);
         console.log('=====================\n');
