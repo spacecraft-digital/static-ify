@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
 
     socket.emit('status', 'connected to server');
 
-    socket.on('disconnect', socket => {
+    socket.on('disconnected', socket => {
         console.log('\n=====================');
         console.log(`RESET`);
         console.log('=====================\n');
