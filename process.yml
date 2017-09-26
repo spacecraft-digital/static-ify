@@ -1,0 +1,4 @@
+apps:
+  - script: server.js
+    env:
+      PORT: 80

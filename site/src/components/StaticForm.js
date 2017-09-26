@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import StaticInput from './StaticInput';
-import GenerateButton from './GenerateButton';
+import Button from './Button';
 
 export default class StaticForm extends Component {
     constructor (props) {
@@ -46,11 +46,11 @@ export default class StaticForm extends Component {
                     <div className="form__group">
                         <div className="form__input">
                             <label className="visually-hidden" htmlFor="requestUri">Target URI</label>
-                            <StaticInput validateCallback={ this.handleValidation.bind(this) } type="url" id="requestUri" name="requestUri" placeholder="http://dev.tyler.pods.jadu.net/" />
+                            <StaticInput validateCallback={ this.handleValidation.bind(this) } type="url" id="requestUri" name="requestUri" placeholder="http://dev.tyler.pods.jadu.net/" required={true}/>
                         </div>
                         <div className="form__input">
                             <label className="visually-hidden" htmlFor="fileName">File name</label>
-                            <StaticInput validateCallback={ this.handleValidation.bind(this) } type="text" id="fileName" name="fileName" placeholder="1-column-homepage" />
+                            <StaticInput validateCallback={ this.handleValidation.bind(this) } type="text" id="fileName" name="fileName" placeholder="1-column-homepage" required={true}/>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ export default class StaticForm extends Component {
                         </div>
                     </div>
                 </div>
-                <GenerateButton statusCode={ statusCode } />
+                <Button label="Generate Bundle" valid={true}/>
             </form>
         );
     }

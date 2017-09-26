@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from './Button';
 
 export default class DownloadButton extends Component {
     render () {
@@ -15,9 +16,9 @@ export default class DownloadButton extends Component {
         }
 
         return (
-            <button className={`button${disabled}`}>
+            <Button valid={!!bundle}>
                 { link }
-            </button>
+            </Button>
         );
     }
 }

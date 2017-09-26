@@ -4,9 +4,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha --compilers js:babel-core/register -w",
-    "dev": "nodemon server.js --ignore site",
-    "watch:assets": "cd site && webpack -w",
-    "prod": "cd site && webpack -p"
+    "dev": "nodemon server.js --ignore site"
   },
   "dependencies": {
     "body-parser": "^1.15.2",

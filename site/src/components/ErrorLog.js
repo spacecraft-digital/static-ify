@@ -8,12 +8,12 @@ export default class ErrorLog extends Component {
         let errorClass = '';
 
         if (logs) {
-            errorClass = ' error-log__list--active';
             logNodes = logs.map((logData) => {
                 const { type, msg } = logData;
 
                 if (type === 'error') {
                     logCount++;
+                    errorClass = ' error-log__list--active';
 
                     return (
                         <li className="error-log__item">

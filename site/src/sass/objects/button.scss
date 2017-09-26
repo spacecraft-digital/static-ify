@@ -29,13 +29,6 @@
 }
 
 .button--disabled {
-    background: transparent;
-    border: 1px solid $color-text-subtle;
-    box-shadow: none;
     cursor: default;
     opacity: .5;
-
-    .button__text {
-        color: $color-text-subtle;
-    }
 }

@@ -3,6 +3,7 @@ node_modules
 
 # app
 site/public/output
+site/public/dist
 site/public/output_bundle.zip
 
 # misc

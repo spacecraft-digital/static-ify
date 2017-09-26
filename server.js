@@ -11,8 +11,7 @@ const Staticify = require('./src/Staticify.js');
 const rimraf = require('rimraf');
 const path = require('path');
 
-const eventEmitter = new events.EventEmitter();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 const PUBLIC = path.resolve(__dirname + '/site/public');
 
 let isInitiated = false;
@@ -30,16 +29,37 @@ app.use(express.static(PUBLIC));
 
 http.listen(PORT, () => {
     console.log(`App listening on ${PORT}`);
-    console.log(`Serving from ${PUBLIC}`);
 });
 
-io.on('connection', (socket) => {
-    const cleanOutputOnLoad = new Staticify({}, null, io);
+app.get('/cli/test', (req, res) => {
+    const eventEmitter = new events.EventEmitter();
+    const bundle = new Staticify({
+        requestUri: 'http://dev.sutton.pods.jadu.net/info/100001/advice_and_benefits/3/20_pages/2',
+        assetPath: 'site',
+        outputFile: 'index',
+        targetUri: 'foo',
+        verbose: true
+    }, eventEmitter, io).initiate();
 
-    socket.emit('status', 'connected to server');
+    res.send('fin');
+});
+
+io.on('connection', socket => {
+    const eventEmitter = new events.EventEmitter();
+    const cleanOutputOnLoad = new Staticify({}, null, io);
 
     cleanOutputOnLoad.cleanOutput(() => {
         cleanOutputOnLoad.socket.emit('status', 'ready for request');
+    });
+
+    socket.emit('status', 'connected to server');
+
+    socket.on('disconnect', socket => {
+        console.log('\n=====================');
+        console.log(`RESET`);
+        console.log('=====================\n');
+
+        cleanOutputOnLoad.cleanOutput();
     });
 
     socket.on('request bundle', (data) => {
