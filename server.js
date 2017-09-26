@@ -11,7 +11,6 @@ const Staticify = require('./src/Staticify.js');
 const rimraf = require('rimraf');
 const path = require('path');
 
-const eventEmitter = new events.EventEmitter();
 const PORT = process.env.PORT || 8080;
 const PUBLIC = path.resolve(__dirname + '/site/public');
 
@@ -33,6 +32,7 @@ http.listen(PORT, () => {
 });
 
 app.get('/cli/test', (req, res) => {
+    const eventEmitter = new events.EventEmitter();
     const bundle = new Staticify({
         requestUri: 'http://dev.sutton.pods.jadu.net/info/100001/advice_and_benefits/3/20_pages/2',
         assetPath: 'site',
@@ -45,6 +45,7 @@ app.get('/cli/test', (req, res) => {
 });
 
 io.on('connection', socket => {
+    const eventEmitter = new events.EventEmitter();
     const cleanOutputOnLoad = new Staticify({}, null, io);
 
     cleanOutputOnLoad.cleanOutput(() => {

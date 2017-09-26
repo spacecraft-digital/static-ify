@@ -90,7 +90,7 @@ module.exports = class Staticify {
         // Let's get out of here if we don't have a requestUri or a targetUri
         // there's a good chance this will be taken care of on the front end
         if (!this.options.requestUri && this.eventEmitter) {
-            this.eventEmitter.emit('app:error', 'A requestUris was not provided');
+            this.eventEmitter.emit('app:error', 'A requestUri was not provided');
         }
 
         // Cache resource length & types
